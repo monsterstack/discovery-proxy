@@ -48,7 +48,6 @@ module.exports = class Proxy {
       }).catch((err) => {
         reject(err);
       });
-      resolve({}); // Need to fetch api based on service.schema
     });
     return p;
   }
