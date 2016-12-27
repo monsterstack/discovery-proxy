@@ -12,7 +12,7 @@ class Proxy {
 
   findAvailableByType(type) {
     let self = this;
-    let p = new Promise((reject, resolve) => {
+    let p = new Promise((resolve, reject) => {
       self.db.find({type: type, status: 'Online'}).toArray((err, docs) => {
         if(err) reject(err);
         else {
@@ -25,7 +25,7 @@ class Proxy {
   }
 
   findOneAvailableByType(type) {
-    let p = new Promise((reject, resolve) => {
+    let p = new Promise((resolve, reject) => {
       this.findAvailableByType(type).then((services) => {
         let i = services.length;
         if(i > 0) {
@@ -42,7 +42,14 @@ class Proxy {
   }
 
   apiForService(service) {
-    let p = new Promise((reject, resolve) => {
+    let p = new Promise((resolve, reject) => {
+      let apiBinding = new ApiBinding(service);
+
+      apiBinding.bind().then((api) => {
+        resolve(api);
+      }).catch((err) => {
+        reject(err);
+      });
       resolve({}); // Need to fetch api based on service.schema
     });
     return p;
@@ -50,7 +57,7 @@ class Proxy {
 
   table() {
     let self = this;
-    let p = new Promise((reject, resolve) => {
+    let p = new Promise((resolve, reject) => {
       self.db.find({}).toArray((err, docs) => {
         // docs is an array of documents that match the query.
         if(err) reject(err);
