@@ -1,0 +1,26 @@
+{
+  "name": "discovery-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zacharyrote/discovery-proxy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zacharyrote/discovery-proxy/issues"
+  },
+  "homepage": "https://github.com/zacharyrote/discovery-proxy#readme",
+  "dependencies": {
+    "discovery-service": "https://github.com/zacharyrote/discovery-service#development",
+    "fetch-swagger-schema": "^0.1.2",
+    "picodb": "^0.8.0",
+    "promise": "^7.1.1",
+    "swagger-client": "^2.1.26"
+  }
+}
