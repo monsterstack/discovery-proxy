@@ -27,7 +27,7 @@ module.exports = class Proxy {
       this.findAvailableByType(type).then((services) => {
         let i = services.length;
         if(i > 0) {
-          /* Should choose random from set */
+          /* Should choose random from set - or consider avg. rtime */
           resolve(services[0]);
         } else {
           resolve(null);
