@@ -109,6 +109,6 @@ module.exports = class Proxy {
       init: _inited
     }
 
-    this.client.query(options.types, handler);
+    this.client.query(options.descriptor, options.types, handler);
   }
 }
