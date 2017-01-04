@@ -1,7 +1,7 @@
 'use strict';
 const debug = require('debug')('apiBinding');
 const fetchSchema = require('fetch-swagger-schema');
-const swaggerNodeClient = require('swagger-client');
+const SwaggerNodeClient = require('swagger-client');
 const Promise = require('promise');
 
 class ApiBinding {
@@ -18,7 +18,7 @@ class ApiBinding {
     let self = this;
     let p = new Promise((resolve, reject) => {
       let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
-      let api = new swaggerNodeClient({
+      let api = new SwaggerNodeClient({
         url: schemaUrl,
         success: () => {
           self.api = api;
