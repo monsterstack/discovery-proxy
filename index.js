@@ -6,12 +6,16 @@ const discoveryService = require('discovery-service');
 const Proxy = require('./libs/proxy.js');
 
 const connect = (options, callback) => {
-  discoveryService.client.connect(options, (client) => {
-    let proxy = new Proxy(client);
-    client.onDisconnect(() => {
-      proxy.flush();
-    });
-    callback(proxy);
+  discoveryService.client.connect(options, (err, client) => {
+    if(err) {
+      callback(err);
+    } else {
+      let proxy = new Proxy(client);
+      client.onDisconnect(() => {
+        proxy.flush();
+      });
+      callback(null, proxy);
+    }
   });
 }
 

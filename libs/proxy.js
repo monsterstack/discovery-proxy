@@ -77,28 +77,48 @@ module.exports = class Proxy {
     let _added = (service) => {
       service._id = service.id;
       this.db.insertOne(service, (err, doc) => {
-        console.log(doc);
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(`Added Service ${service.type}`);
+          console.log(doc);
+        }
       });
     }
 
     let _removed = (service) => {
       service._id = service.id;
-      this.db.deleteOne(service, (err, doc) => {
-        console.log(doc);
+      this.db.deleteOne(service, (err, numModified) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(`Removed Service ${service.type}`);
+          console.log(numModified);
+        }
       });
     }
 
     let _updated = (service) => {
       service._id = service.id;
-      this.db.deleteOne(service, (err, doc) => {
-        console.log(doc);
+      this.db.updateOne(service, (err, doc) => {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(`Updated Service ${service.type}`);
+          console.log(doc);
+        }
       });
     }
 
     let _inited = (service) => {
       service._id = service.id;
       this.db.insertOne(service, (err, doc) => {
-        console.log(doc);
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(`Inited Service ${service.type}`);
+          console.log(doc);
+        }
       });
     }
 
