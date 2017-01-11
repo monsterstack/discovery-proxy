@@ -98,6 +98,7 @@ module.exports = class Proxy {
 
     let _removed = (service) => {
       service._id = service.id;
+      console.log(`Removing Service ${service.type} ${service.id}`);
       this.db.deleteOne(service, (err, numModified) => {
         if(err) {
           console.log(err);
@@ -110,6 +111,7 @@ module.exports = class Proxy {
 
     let _updated = (service) => {
       service._id = service.id;
+      console.log(`Updating Service ${service.type} ${service.id}`);
       this.db.updateOne(service, (err, doc) => {
         if(err) {
           console.log(err);
@@ -122,6 +124,7 @@ module.exports = class Proxy {
 
     let _inited = (service) => {
       service._id = service.id;
+      console.log(`Initing Service ${service.type} ${service.id}`);
       this.db.insertOne(service, (err, doc) => {
         if(err) {
           console.log(err);
