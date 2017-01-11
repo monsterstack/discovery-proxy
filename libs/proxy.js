@@ -1,3 +1,5 @@
+'use strict';
+const uuid = require('node-uuid');
 const Promise = require('promise');
 const PicoDB = require('picodb');
 
@@ -6,6 +8,12 @@ module.exports = class Proxy {
     this.client = client;
     this.db = PicoDB.Create();
     this.routingTable = {};
+    this.id = uuid.v1();
+
+    let self = this;
+    this.client.onDisconnect(() => {
+      self.isBound = false;
+    });
   }
 
   findAvailableByType(type) {
@@ -74,13 +82,14 @@ module.exports = class Proxy {
   }
 
   bind(options) {
+    console.log('Binding');
     let _added = (service) => {
       service._id = service.id;
       this.db.insertOne(service, (err, doc) => {
         if(err) {
           console.log(err);
         } else {
-          console.log(`Added Service ${service.type}`);
+          console.log(`Added Service ${service.type} ${service.id}`);
           console.log(doc);
         }
       });
@@ -92,7 +101,7 @@ module.exports = class Proxy {
         if(err) {
           console.log(err);
         } else {
-          console.log(`Removed Service ${service.type}`);
+          console.log(`Removed Service ${service.type} ${service.id}`);
           console.log(numModified);
         }
       });
@@ -104,7 +113,7 @@ module.exports = class Proxy {
         if(err) {
           console.log(err);
         } else {
-          console.log(`Updated Service ${service.type}`);
+          console.log(`Updated Service ${service.type} ${service.id}`);
           console.log(doc);
         }
       });
@@ -116,7 +125,7 @@ module.exports = class Proxy {
         if(err) {
           console.log(err);
         } else {
-          console.log(`Inited Service ${service.type}`);
+          console.log(`Inited Service ${service.type} ${service.id}`);
           console.log(doc);
         }
       });
@@ -130,5 +139,7 @@ module.exports = class Proxy {
     }
 
     this.client.query(options.descriptor, options.types, handler);
+
+    this.isBound = true;
   }
 }

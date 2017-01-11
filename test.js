@@ -1,11 +1,12 @@
 'use strict';
 
 const proxy = require('./index.js');
-
-proxy.connect({addr:'http://localhost:7616'}, (err, p) => {
+const handler = (err, p) => {
   if(err) {
     console.log(err);
   } else {
-    p.bind({ types: ['DiscoveryService'] });
+    p.bind({types: ["DiscoveryService"]});
   }
-});
+}
+
+proxy.connect({addr:'http://localhost:7616'}, handler);
