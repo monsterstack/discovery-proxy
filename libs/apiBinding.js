@@ -17,17 +17,21 @@ class ApiBinding {
   bind(schemaOverride) {
     let self = this;
     let p = new Promise((resolve, reject) => {
-      let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
-      let api = new SwaggerNodeClient({
-        url: schemaUrl,
-        success: () => {
-          self.api = api;
-          resolve(self);
-        },
-        error: (err) => {
-          reject(err);
-        }
-      });
+      try {
+        let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
+        let api = new SwaggerNodeClient({
+          url: schemaUrl,
+          success: () => {
+            self.api = api;
+            resolve(self);
+          },
+          error: (err) => {
+            reject(err);
+          }
+        });
+      } catch (error) {
+        reject(error);
+      }
     });
     return p;
   }

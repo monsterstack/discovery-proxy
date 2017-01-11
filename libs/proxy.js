@@ -3,6 +3,8 @@ const uuid = require('node-uuid');
 const Promise = require('promise');
 const PicoDB = require('picodb');
 
+const ApiBinding = require('./apiBinding');
+
 module.exports = class Proxy {
   constructor(client) {
     this.client = client;
@@ -50,7 +52,6 @@ module.exports = class Proxy {
   apiForService(service) {
     let p = new Promise((resolve, reject) => {
       let apiBinding = new ApiBinding(service);
-
       apiBinding.bind().then((api) => {
         resolve(api);
       }).catch((err) => {
