@@ -112,7 +112,7 @@ module.exports = class Proxy {
     let _updated = (service) => {
       service._id = service.id;
       console.log(`Updating Service ${service.type} ${service.id}`);
-      this.db.updateOne(service, (err, doc) => {
+      this.db.updateOne({_id:service.id}, service, (err, doc) => {
         if(err) {
           console.log(err);
         } else {
