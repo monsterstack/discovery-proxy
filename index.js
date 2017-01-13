@@ -1,7 +1,7 @@
 'use strict';
 const Promise = require('promise');
 const PicoDB = require('picodb');
-const discoveryClent = require('discovery-client');
+const discoveryClient = require('discovery-client');
 const debug = require('debug')('discovery-proxy-connect');
 const Proxy = require('./libs/proxy.js');
 
@@ -25,5 +25,5 @@ const connect = (options, callback) => {
   });
 }
 
-module.exports.client = discoveryService.client;
+module.exports.client = discoveryClient.client;
 module.exports.connect = connect;
