@@ -1,14 +1,14 @@
 'use strict';
 const Promise = require('promise');
 const PicoDB = require('picodb');
-const discoveryService = require('discovery-service');
+const discoveryClent = require('discovery-client');
 const debug = require('debug')('discovery-proxy-connect');
 const Proxy = require('./libs/proxy.js');
 
 
 const connect = (options, callback) => {
   let proxy = null;
-  discoveryService.client.connect(options, (err, client) => {
+  discoveryClient.client.connect(options, (err, client) => {
     if(err) {
       callback(err);
     } else {

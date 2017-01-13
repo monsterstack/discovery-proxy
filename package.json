@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/zacharyrote/discovery-proxy#readme",
   "dependencies": {
-    "discovery-service": "https://github.com/zacharyrote/discovery-service#development",
+    "discovery-client": "https://github.com/zacharyrote/discovery-client#development",
     "fetch-swagger-schema": "^0.1.2",
     "picodb": "^0.8.0",
     "promise": "^7.1.1",
