@@ -25,5 +25,29 @@ const connect = (options, callback) => {
   });
 }
 
+const createErrorHandler = (serviceId, model) => {
+  return function(options, err) {
+    if (options.cleanup) {
+      console.log('clean');
+      model.deleteService({id:serviceId}).then((service) => {
+        console.log(`Cleaned up Service ${service.id}`);
+        setTimeout(() => {
+          process.exit();
+        }, 500);
+      }).error((error) => {
+        console.log(`Service Delete failed ${serviceId}`);
+        console.log(error);
+        process.exit();
+      });
+    }
+
+    if (err) {
+      console.log(err.stack);
+      process.exit();
+    }
+  }
+}
+
 module.exports.client = discoveryClient.client;
+exports.exitHandlerFactory = createErrorHandler;
 module.exports.connect = connect;
