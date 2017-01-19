@@ -31,42 +31,42 @@ const createErrorHandler = (serviceId, model) => {
   return function(options, err) {
     if (options.cleanup) {
       console.log('clean');
-      let payload = '';
-      let request = http.request({
-        host: 'localhost',
-        port: 7616,
-        path: 'api/v1/services/'+serviceId,
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(payload)
-        }
-      });
+      // let payload = '';
+      // let request = http.request({
+      //   host: 'localhost',
+      //   port: 7616,
+      //   path: 'api/v1/services/'+serviceId,
+      //   method: 'DELETE',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Content-Length': Buffer.byteLength(payload)
+      //   }
+      // });
+      //
+      //
+      // request.write(payload);
+      // request.end();
+      //
+      // setTimeout(() => {
+      //   process.exit();
+      // }, 500);
 
-
-      request.write(payload);
-      request.end();
-
-      setTimeout(() => {
-        process.exit();
-      }, 500);
-
-      // if(model) {
-      //   model.deleteService({id:serviceId}).then((service) => {
-      //     console.log(`Cleaned up Service ${service.id}`);
-      //     setTimeout(() => {
-      //       process.exit();
-      //     }, 500);
-      //   }).error((error) => {
-      //     console.log(`Service Delete failed ${serviceId}`);
-      //     console.log(error);
-      //     process.exit();
-      //   });
-      // } else {
-      //   setTimeout(() => {
-      //     process.exit();
-      //   }, 500);
-      // }
+      if(model) {
+        model.deleteService({id:serviceId}).then((service) => {
+          console.log(`Cleaned up Service ${service.id}`);
+          setTimeout(() => {
+            process.exit();
+          }, 500);
+        }).error((error) => {
+          console.log(`Service Delete failed ${serviceId}`);
+          console.log(error);
+          process.exit();
+        });
+      } else {
+        setTimeout(() => {
+          process.exit();
+        }, 500);
+      }
     }
 
     if (err) {
