@@ -4,7 +4,7 @@ const PicoDB = require('picodb');
 const discoveryClient = require('discovery-client');
 const debug = require('debug')('discovery-proxy-connect');
 const Proxy = require('./libs/proxy.js');
-
+const http = require('http');
 
 const connect = (options, callback) => {
   let proxy = null;
