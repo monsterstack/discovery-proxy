@@ -25,20 +25,28 @@ const connect = (options, callback) => {
   });
 }
 
+// @TODO: Proxy shouldn't have access to discovery-model repository..
+// Move this to discovery-service.
 const createErrorHandler = (serviceId, model) => {
   return function(options, err) {
     if (options.cleanup) {
       console.log('clean');
-      model.deleteService({id:serviceId}).then((service) => {
-        console.log(`Cleaned up Service ${service.id}`);
+      if(model) {
+        model.deleteService({id:serviceId}).then((service) => {
+          console.log(`Cleaned up Service ${service.id}`);
+          setTimeout(() => {
+            process.exit();
+          }, 500);
+        }).error((error) => {
+          console.log(`Service Delete failed ${serviceId}`);
+          console.log(error);
+          process.exit();
+        });
+      } else {
         setTimeout(() => {
           process.exit();
         }, 500);
-      }).error((error) => {
-        console.log(`Service Delete failed ${serviceId}`);
-        console.log(error);
-        process.exit();
-      });
+      }
     }
 
     if (err) {
