@@ -33,8 +33,9 @@ module.exports = class Proxy {
   }
 
   findOneAvailableByType(type) {
+    let self = this;
     let p = new Promise((resolve, reject) => {
-      this.findAvailableByType(type).then((services) => {
+      self.findAvailableByType(type).then((services) => {
         let i = services.length;
         if(i > 0) {
           /* Should choose random from set - or consider avg. rtime */
@@ -50,6 +51,7 @@ module.exports = class Proxy {
   }
 
   apiForService(service) {
+    let self = this;
     let p = new Promise((resolve, reject) => {
       let apiBinding = new ApiBinding(service);
       apiBinding.bind().then((api) => {
