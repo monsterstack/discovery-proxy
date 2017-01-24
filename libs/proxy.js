@@ -9,12 +9,16 @@ module.exports = class Proxy {
   constructor(client) {
     this.client = client;
     this.db = PicoDB.Create();
-    this.routingTable = {};
     this.id = uuid.v1();
 
     let self = this;
     this.client.onDisconnect(() => {
       self.isBound = false;
+    });
+
+    // Initialize db..
+    this.db.insertOne({i:45444}).then((result) => {
+      this.db.deleteOne({i:45444});
     });
   }
 
