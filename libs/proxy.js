@@ -50,6 +50,13 @@ module.exports = class Proxy {
     return p;
   }
 
+  apiForServiceType(type) {
+    let self = this;
+    return self.findOneAvailableByType(type).then((serviceDescriptor) => {
+      return self.apiForService(serviceDescriptor);
+    });
+  }
+
   apiForService(service) {
     let self = this;
     let p = new Promise((resolve, reject) => {
