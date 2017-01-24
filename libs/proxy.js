@@ -17,8 +17,9 @@ module.exports = class Proxy {
     });
 
     // Initialize db..
-    this.db.insertOne({i:45444}).then((result) => {
-      this.db.deleteOne({i:45444});
+    this.db.insertOne({i:45444}, (err, result) => {
+      if(result)
+        this.db.deleteOne({i:45444});
     });
   }
 
