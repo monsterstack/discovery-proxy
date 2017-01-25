@@ -14,7 +14,7 @@ describe('discovery-proxy', () => {
 
   it('api created when binding occurs', (done) => {
     let service = {
-      endpoint: 'http://petstore.swagger.io/v2',
+      endpoint: 'http://localhost:7616',
       schemaRoute: '/swagger.json'
     };
 
