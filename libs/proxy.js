@@ -16,11 +16,7 @@ module.exports = class Proxy {
       self.isBound = false;
     });
 
-    // Initialize db..
-    this.db.insertOne({i:45444}, (err, result) => {
-      if(result)
-        this.db.deleteOne({i:45444});
-    });
+    this._initDb();
   }
 
   findAvailableByType(type) {
@@ -168,5 +164,13 @@ module.exports = class Proxy {
     this.client.query(options.descriptor, options.types, handler);
 
     this.isBound = true;
+  }
+
+  _initDb() {
+    // Initialize db.. this is LAme!!!!!!
+    this.db.insertOne({i:45444}, (err, result) => {
+      if(result)
+        this.db.deleteOne({i:45444});
+    });
   }
 }
