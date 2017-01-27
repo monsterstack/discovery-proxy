@@ -4,6 +4,7 @@ const PicoDB = require('picodb');
 const discoveryClient = require('discovery-client');
 const debug = require('debug')('discovery-proxy-connect');
 const Proxy = require('./libs/proxy.js');
+const ApiBinding = require('./libs/apiBinding');
 const http = require('http');
 
 const connect = (options, callback) => {
@@ -79,3 +80,5 @@ const createErrorHandler = (serviceId, model) => {
 module.exports.client = discoveryClient.client;
 exports.exitHandlerFactory = createErrorHandler;
 module.exports.connect = connect;
+
+module.exports.ApiBinding = ApiBinding;
