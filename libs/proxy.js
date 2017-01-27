@@ -104,41 +104,53 @@ module.exports = class Proxy {
   bind(options) {
     console.log('Binding');
     let _added = (service) => {
-      service._id = service.id;
-      this.db.insertOne(service, (err, doc) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log(`Added Service ${service.type} ${service.id}`);
-          console.log(doc);
-        }
-      });
+      if(options.types.indexOf(service.type) != -1) {
+        service._id = service.id;
+        this.db.insertOne(service, (err, doc) => {
+          if(err) {
+            console.log(err);
+          } else {
+            console.log(`Added Service ${service.type} ${service.id}`);
+            console.log(doc);
+          }
+        });
+      } else {
+        console.log(`Received notification for service of no interest... BUG! ${service.type}`);
+      }
     }
 
     let _removed = (service) => {
-      service._id = service.id;
-      console.log(`Removing Service ${service.type} ${service.id}`);
-      this.db.deleteOne(service, (err, numModified) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log(`Removed Service ${service.type} ${service.id}`);
-          console.log(numModified);
-        }
-      });
+      if(options.types.indexOf(service.type) != -1) {
+        service._id = service.id;
+        console.log(`Removing Service ${service.type} ${service.id}`);
+        this.db.deleteOne(service, (err, numModified) => {
+          if(err) {
+            console.log(err);
+          } else {
+            console.log(`Removed Service ${service.type} ${service.id}`);
+            console.log(numModified);
+          }
+        });
+      } else {
+        console.log(`Received notification for service of no interest... BUG! ${service.type}`);
+      }
     }
 
     let _updated = (service) => {
-      service._id = service.id;
-      console.log(`Updating Service ${service.type} ${service.id}`);
-      this.db.updateOne({_id:service.id}, service, (err, doc) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log(`Updated Service ${service.type} ${service.id}`);
-          console.log(doc);
-        }
-      });
+      if(options.types.indexOf(service.type) != -1) {
+        service._id = service.id;
+        console.log(`Updating Service ${service.type} ${service.id}`);
+        this.db.updateOne({_id:service.id}, service, (err, doc) => {
+          if(err) {
+            console.log(err);
+          } else {
+            console.log(`Updated Service ${service.type} ${service.id}`);
+            console.log(doc);
+          }
+        });
+      } else {
+        console.log(`Received notification for service of no interest... BUG! ${service.type}`);
+      }
     }
 
     let _inited = (service) => {
