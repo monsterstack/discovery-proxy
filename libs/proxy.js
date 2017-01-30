@@ -55,11 +55,15 @@ module.exports = class Proxy {
     let self = this;
     let p = new Promise((resolve, reject) => {
       self.findOneAvailableByType(type).then((serviceDescriptor) => {
-        self.apiForService(serviceDescriptor).then((api) => {
-          resolve(api);
-        }).catch((err) => {
-          reject(err);
-        });
+        if(serviceDescriptor) {
+          self.apiForService(serviceDescriptor).then((api) => {
+            resolve(api);
+          }).catch((err) => {
+            reject(err);
+          });
+        } else {
+          resolve(null);
+        }
       }).catch((err) => {
         reject(err);
       });
