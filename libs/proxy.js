@@ -14,6 +14,7 @@ module.exports = class Proxy {
     let self = this;
     this.client.onDisconnect(() => {
       self.isBound = false;
+      console.log(">>>>>>>>>>>>>>>>>> Handlers Cleared >>>>>>>>>>>>");
       self.client.clearHandlers();
     });
 
