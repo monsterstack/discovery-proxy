@@ -108,6 +108,7 @@ module.exports = class Proxy {
   bind(options) {
     console.log('Binding');
     let _added = (service) => {
+      console.log(`Adding Service of type ${service.type}`);
       if(options.types.indexOf(service.type) != -1) {
         service._id = service.id;
         this.db.insertOne(service, (err, doc) => {
@@ -124,6 +125,7 @@ module.exports = class Proxy {
     }
 
     let _removed = (service) => {
+      console.log(`Removing Service of type ${service.type}`);
       if(options.types.indexOf(service.type) != -1) {
         service._id = service.id;
         console.log(`Removing Service ${service.type} ${service.id}`);
@@ -141,6 +143,7 @@ module.exports = class Proxy {
     }
 
     let _updated = (service) => {
+      console.log(`Updating Service of type ${service.type}`);
       if(options.types.indexOf(service.type) != -1) {
         service._id = service.id;
         console.log(`Updating Service ${service.type} ${service.id}`);
