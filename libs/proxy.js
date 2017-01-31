@@ -14,6 +14,7 @@ module.exports = class Proxy {
     let self = this;
     this.client.onDisconnect(() => {
       self.isBound = false;
+      self.client.clearHandlers();
     });
 
     this._initDb();
