@@ -4,6 +4,7 @@ const Promise = require('promise');
 const PicoDB = require('picodb');
 
 const ApiBinding = require('./apiBinding');
+const QueueBinding = require('./queueBinding');
 
 module.exports = class Proxy {
   constructor(client) {
@@ -73,12 +74,45 @@ module.exports = class Proxy {
     return p;
   }
 
+  queueForServiceType(type) {
+    let self = this;
+    let p = new Promise((resolve, reject) => {
+      self.findOneAvailableByType(type).then((serviceDescriptor) => {
+        if(serviceDescriptor) {
+          self.queueForService(serviceDescriptor).then((queue) => {
+            resolve(queue);
+          }).catch((err) => {
+            reject(err);
+          });
+        } else {
+          resolve(null);
+        }
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+    return p;
+  }
+
   apiForService(service) {
     let self = this;
     let p = new Promise((resolve, reject) => {
       let apiBinding = new ApiBinding(service);
       apiBinding.bind().then((api) => {
         resolve(api);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+    return p;
+  }
+
+  queueForService(service) {
+    let self = this;
+    let p = new Promise((resolve, reject) => {
+      let queueBinding = new QueueBinding(service);
+      queueBinding.bind().then((q) => {
+        resolve(q);
       }).catch((err) => {
         reject(err);
       });
