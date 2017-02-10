@@ -28,7 +28,6 @@ class Queue {
       // } else {
       //    reject(new Error("Schema validation failed"));
       // }
-    }
     });
 
     return p;
