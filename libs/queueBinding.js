@@ -53,6 +53,8 @@ class QueueBinding {
     let self = this;
     let p = new Promise((resolve, reject) => {
       try {
+        // Download the jsonSchema.
+        
         // Build Queue from discriptor endpoint or channelOverride
         if(self.redisSmq) {
           let channel;
