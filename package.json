@@ -21,6 +21,7 @@
     "debug": "^2.6.0",
     "discovery-client": "https://github.com/zacharyrote/discovery-client#development",
     "fetch-swagger-schema": "^0.1.2",
+    "jsonschema": "^1.1.1",
     "node-uuid": "^1.4.7",
     "picodb": "^0.8.0",
     "promise": "^7.1.1",
