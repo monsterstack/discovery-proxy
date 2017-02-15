@@ -1,8 +1,10 @@
 'use strict';
 const Promise = require('promise');
 const RedisSMQ = require("rsmq");
-const Validator = require("jsonSchema").Validator;
+const Validator = require("jsonschema").Validator;
 const config = require('config');
+
+const QUEUE_EXISTS_ERROR_MSG = "Queue exists";
 
 class Queue {
   constructor(channel, rsmq) {
@@ -20,16 +22,46 @@ class Queue {
       // @TODO: Here we want to validate against the json schema for this worker queue.
       // If the data payload isn't valid reject as error.
       // if(self.validator.validate(data, self.jsonSchema)) {
-      self.rsmq.sendMessage({qname: this.channel.split("q://")[1], message: JSON.stringify(data)}, (err, response) => {
-        if(err) reject(err);
-        else
-          resolve(response);
-      });
+      let qname = this.channel.split("q://")[1];
+      self.rsmq.createQueue({qname:qname}, (err, resp) => {
+        if (resp) {
+            console.log("queue created")
+            self._send(qname, data).then((response) => {
+              resolve(response);
+            }).catch((err) => {
+              reject(err);
+            });
+        } else {
+          // If the Queue already exists then just send the message
+          if(err.message === QUEUE_EXISTS_ERROR_MSG) {
+            self._send(qname, data).then((response) => {
+              resolve(response);
+            }).catch((err) => {
+              reject(err);
+            });
+          } else {
+            reject(err);
+          }
+        }
+      });  
+      
       // } else {
       //    reject(new Error("Schema validation failed"));
       // }
     });
 
+    return p;
+  }
+
+  _send(qname, data) {
+    let self = this;
+    let p = new Promise((resolve, reject) => {
+      self.rsmq.sendMessage({qname: qname, message: JSON.stringify(data)}, (err, response) => {
+        if(err) reject(err);
+        else
+          resolve(response);
+      });
+    });
     return p;
   }
 }
