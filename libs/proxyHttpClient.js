@@ -1,6 +1,6 @@
 'use strict';
 const Promise = require('promise');
-const unirest = require('unirest');
+const needle = require('needle');
 
 const DEFAULT_TIMEOUT = 5*1000;
 // Http Method Types
@@ -42,13 +42,21 @@ class ProxyHttpClient {
     get(path, headers) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            let request = self.unirest.get(path, headers);
-            request.header('Content-Type', 'application/json');
-            request.header('Accept', 'application/json');
-            request.timeout(DEFAULT_TIMEOUT);
-            request.end((response) => {
-                resolve(response);
-            })
+            let myHeaders = {};
+            if(headers) {
+                myHeaders = headers;
+                myHeaders['Content-Type'] = 'application/json';
+            } else {
+                myHeaders = {'Content-Type': 'application/json'};
+            }
+
+            self.unirest.get(path, { headers: myHeaders }, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
+            });
         });
 
         return p;
@@ -57,11 +65,20 @@ class ProxyHttpClient {
     put(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            let request = self.unirest.put(path, headers);
-            request.timeout(DEFAULT_TIMEOUT);
-            request.send(body);
-            request.end((response) => {
-                resolve(response);
+            let myHeaders = {};
+            if(headers) {
+                myHeaders = headers;
+                myHeaders['Content-Type'] = 'application/json';
+            } else {
+                myHeaders = {'Content-Type': 'application/json'};
+            }
+
+            self.unirest.put(path, body, { headers: myHeaders }, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
             });
         });
 
@@ -71,11 +88,20 @@ class ProxyHttpClient {
     post(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            let request = self.unirest.post(path, headers);
-            request.timeout(DEFAULT_TIMEOUT);
-            request.send(body);
-            request.end((response) => {
-                resolve(response);
+            let myHeaders = {};
+            if(headers) {
+                myHeaders = headers;
+                myHeaders['Content-Type'] = 'application/json';
+            } else {
+                myHeaders = {'Content-Type': 'application/json'};
+            }
+
+            self.unirest.post(path, body, { headers: myHeaders }, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
             });
         });
 
@@ -85,11 +111,20 @@ class ProxyHttpClient {
     delete(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            let request = self.unirest.delete(path, headers);
-            request.timeout(DEFAULT_TIMEOUT);
-            request.send(body);
-            request.end((response) => {
-                resolve(response);
+            let myHeaders = {};
+            if(headers) {
+                myHeaders = headers;
+                myHeaders['Content-Type'] = 'application/json';
+            } else {
+                myHeaders = {'Content-Type': 'application/json'};
+            }
+
+            self.unirest.delete(path, body, { headers: myHeaders }, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
             });
         });
 
@@ -99,10 +134,20 @@ class ProxyHttpClient {
     head(path, headers) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            let request = self.unirest.head(path, headers);
-            request.timeout(DEFAULT_TIMEOUT);
-            request.end((response) => {
-                resolve(response);
+            let myHeaders = {};
+            if(headers) {
+                myHeaders = headers;
+                myHeaders['Content-Type'] = 'application/json';
+            } else {
+                myHeaders = {'Content-Type': 'application/json'};
+            }
+
+            self.unirest.put(path, body, { headers: myHeaders }, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
             });
         });
 
@@ -112,10 +157,20 @@ class ProxyHttpClient {
     patch(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            let request = self.unirest.patch(path, headers);
-            request.timeout(DEFAULT_TIMEOUT);
-            request.end((response) => {
-                resolve(response);
+            let myHeaders = {};
+            if(headers) {
+                myHeaders = headers;
+                myHeaders['Content-Type'] = 'application/json';
+            } else {
+                myHeaders = {'Content-Type': 'application/json'};
+            }
+
+            self.unirest.patch(path, body, { headers: myHeaders }, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
             });
         });
 

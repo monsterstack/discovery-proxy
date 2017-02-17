@@ -22,12 +22,12 @@
     "discovery-client": "https://github.com/zacharyrote/discovery-client#development",
     "fetch-swagger-schema": "^0.1.2",
     "jsonschema": "^1.1.1",
+    "needle": "^1.4.5",
     "node-stopwatch": "0.0.1",
     "node-uuid": "^1.4.7",
     "picodb": "^0.8.0",
     "promise": "^7.1.1",
     "rsmq": "^0.7.2",
-    "swagger-client": "^2.1.26",
-    "unirest": "^0.5.1"
+    "swagger-client": "^2.1.26"
   }
 }
