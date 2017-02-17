@@ -16,6 +16,7 @@ class ProxyHttpClient {
     }
 
     request(method, url, headers, body) {
+        let promise = null;
         if(method === POST) {
             promise = this.post(url, headers, body);
         } else if(method === PUT) {
@@ -33,6 +34,8 @@ class ProxyHttpClient {
                 reject(new Error(`Unsupported Request Method ${method}`));
             });
         }
+
+        return promise;
     }
 
     get(path, headers) {
