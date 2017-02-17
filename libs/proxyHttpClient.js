@@ -41,10 +41,8 @@ class ProxyHttpClient {
     get(path, headers) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.get(path)
-                .headers(headers)
-                .end((response) => {
-                    resolve(response);
+            self.unirest.get(path, headers, null /* no body */, (error, response) => {
+                resolve(response);
             });
         });
 
@@ -54,11 +52,12 @@ class ProxyHttpClient {
     put(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.put(path)
-                .headers(headers)
-                .send(body)
-                .end(function (response) {
+            self.unirest.put(path, headers, body, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
                     resolve(response);
+                }
             });
         });
 
@@ -68,11 +67,12 @@ class ProxyHttpClient {
     post(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.post(path)
-                .headers(headers)
-                .send(body)
-                .end((response) => {
+            self.unirest.post(path, headers, body, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
                     resolve(response);
+                }
             });
         });
 
@@ -82,11 +82,12 @@ class ProxyHttpClient {
     delete(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.delete(path)
-                .headers(headers)
-                .send(body)
-                .end((response) => {
+            self.unirest.delete(pathpath, headers, body, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
                     resolve(response);
+                }
             });
         });
 
@@ -96,10 +97,12 @@ class ProxyHttpClient {
     head(path, headers) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.head(path)
-                .headers(headers)
-                .end((response) => {
+            self.unirest.head(pathpath, headers, null /* no body */, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
                     resolve(response);
+                }
             });
         });
 
@@ -109,11 +112,12 @@ class ProxyHttpClient {
     patch(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.put(path)
-                .headers(headers)
-                .send(body)
-                .end(function (response) {
+            self.unirest.patch(pathpath, headers, body, (error, response) => {
+                if(error) {
+                    reject(error);
+                } else {
                     resolve(response);
+                }
             });
         });
 
