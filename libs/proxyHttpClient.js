@@ -13,7 +13,7 @@ const HEAD = "HEAD".toLowerCase();
 
 class ProxyHttpClient {
     constructor() {
-        this.unirest = unirest;
+        this.needle = needle;
     }
 
     request(method, url, headers, body) {
@@ -50,7 +50,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.unirest.get(path, { headers: myHeaders }, (error, response) => {
+            self.needle.get(path, { headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -73,7 +73,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.unirest.put(path, body, { headers: myHeaders }, (error, response) => {
+            self.needle.put(path, body, { headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -96,7 +96,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.unirest.post(path, body, { headers: myHeaders }, (error, response) => {
+            self.needle.post(path, body, { headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -119,7 +119,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.unirest.delete(path, body, { headers: myHeaders }, (error, response) => {
+            self.needle.delete(path, body, { headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -142,7 +142,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.unirest.put(path, body, { headers: myHeaders }, (error, response) => {
+            self.needle.put(path, body, { headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -165,7 +165,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.unirest.patch(path, body, { headers: myHeaders }, (error, response) => {
+            self.needle.patch(path, body, { headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
