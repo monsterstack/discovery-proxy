@@ -13,7 +13,6 @@ const HEAD = "HEAD".toLowerCase();
 
 class ProxyHttpClient {
     constructor() {
-        this.needle = needle;
     }
 
     request(method, url, headers, body) {
@@ -50,7 +49,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.needle.get(path, { json: true, headers: myHeaders }, (error, response) => {
+            needle.get(path, { json: true, headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -73,7 +72,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.needle.put(path, body, { json: true, headers: myHeaders }, (error, response) => {
+            needle.put(path, body, { json: true, headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -96,7 +95,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.needle.post(path, body, { json: true, headers: myHeaders }, (error, response) => {
+            needle.post(path, body, { json: true, headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -119,7 +118,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.needle.delete(path, body, { json: true, headers: myHeaders }, (error, response) => {
+            needle.delete(path, body, { json: true, headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -142,7 +141,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.needle.put(path, body, { json: true, headers: myHeaders }, (error, response) => {
+            needle.put(path, body, { json: true, headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -165,7 +164,7 @@ class ProxyHttpClient {
                 myHeaders = {'Content-Type': 'application/json'};
             }
 
-            self.needle.patch(path, body, { json: true, headers: myHeaders }, (error, response) => {
+            needle.patch(path, body, { json: true, headers: myHeaders }, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
