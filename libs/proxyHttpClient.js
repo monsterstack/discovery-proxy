@@ -2,6 +2,7 @@
 const Promise = require('promise');
 const unirest = require('unirest');
 
+const DEFAULT_TIMEOUT = 5*1000;
 // Http Method Types
 const POST = "POST".toLowerCase();
 const PUT = "PUT".toLowerCase();
