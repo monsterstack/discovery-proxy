@@ -21,6 +21,7 @@ class ApiBinding {
         let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
         let api = new SwaggerNodeClient({
           url: schemaUrl,
+          client: self._httpClient(),
           success: () => {
             self.api = api;
             resolve(self);
@@ -34,6 +35,26 @@ class ApiBinding {
       }
     });
     return p;
+  }
+
+
+  _httpClient() {
+    return {
+      execute: (obj) => {
+        let method = obj.method;
+        let headers = obj.headers;
+        let body = obj.body;
+        let url = obj.url;
+
+        let proxyHttpClient = new proxyHttpClient();
+
+        proxyHttpClient.request(method, url, headers, body).then((response) => {
+
+        }).catch((error) => {
+
+        });
+      }
+    }
   }
 }
 

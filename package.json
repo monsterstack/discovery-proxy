@@ -26,6 +26,7 @@
     "picodb": "^0.8.0",
     "promise": "^7.1.1",
     "rsmq": "^0.7.2",
-    "swagger-client": "^2.1.26"
+    "swagger-client": "^2.1.26",
+    "unirest": "^0.5.1"
   }
 }
