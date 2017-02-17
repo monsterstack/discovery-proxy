@@ -4,8 +4,9 @@ const fetchSchema = require('fetch-swagger-schema');
 const SwaggerNodeClient = require('swagger-client');
 const Promise = require('promise');
 const ProxyHttpClient = require('./proxyHttpClient');
+const EventEmitter = require('events');
 
-class ApiBinding {
+class ApiBinding extends EventEmitter {
   constructor(service) {
     this.descriptor = service;
     this.api = null;
