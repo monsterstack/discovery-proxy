@@ -42,7 +42,11 @@ class ProxyHttpClient {
         let self = this;
         let p = new Promise((resolve, reject) => {
             self.unirest.get(path, headers, null /* no body */, (error, response) => {
-                resolve(response);
+                if(error) {
+                    reject(error);
+                } else {
+                    resolve(response);
+                }
             });
         });
 
