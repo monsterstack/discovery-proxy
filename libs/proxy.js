@@ -99,6 +99,9 @@ module.exports = class Proxy {
     let p = new Promise((resolve, reject) => {
       let apiBinding = new ApiBinding(service);
       apiBinding.bind().then((api) => {
+        api.on('response.time', (responseTime) => {
+          console.log(responseTime);
+        });
         resolve(api);
       }).catch((err) => {
         reject(err);

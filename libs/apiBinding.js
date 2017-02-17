@@ -4,6 +4,7 @@ const fetchSchema = require('fetch-swagger-schema');
 const SwaggerNodeClient = require('swagger-client');
 const Promise = require('promise');
 const ProxyHttpClient = require('./proxyHttpClient');
+const Stopwatch = require("node-stopwatch").Stopwatch;
 const EventEmitter = require('events');
 
 class ApiBinding extends EventEmitter {
@@ -39,8 +40,13 @@ class ApiBinding extends EventEmitter {
     return p;
   }
 
+  _emitResponseTime(responseTime) {
+    this.emit('response.time', { serviceId: self.service.id, value: responseTime});
+  }
+
 
   _httpClient() {
+    let self = this;
     return {
       execute: (obj) => {
         let method = obj.method;
@@ -49,14 +55,20 @@ class ApiBinding extends EventEmitter {
         let url = obj.url;
 
         let proxyHttpClient = new ProxyHttpClient();
-
+        let stopwatch = Stopwatch.create();
+        stopwatch.start();
         proxyHttpClient.request(method, url, headers, body).then((response) => {
           if(response.error) {
+            stopwatch.stop();
             obj.on.error(response);
           } else {
+            stopwatch.stop();
+            let elapsedTime = stopwatch.elapsedMilliseconds;
+            self._emitResponseTime(elapsedTime);
             obj.on.response(response);
           }
         }).catch((error) => {
+          stopwatch.stop();
           obj.on.error(error);
         });
       }
