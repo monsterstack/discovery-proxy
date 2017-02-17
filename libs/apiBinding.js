@@ -60,6 +60,7 @@ class ApiBinding extends EventEmitter {
         stopwatch.start();
         proxyHttpClient.request(method, url, headers, body).then((response) => {
           if(response.error) {
+            console.log(`Error ${response.error}`);
             stopwatch.stop();
             obj.on.error(response);
           } else {
