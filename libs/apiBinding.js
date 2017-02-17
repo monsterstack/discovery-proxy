@@ -9,6 +9,7 @@ const EventEmitter = require('events');
 
 class ApiBinding extends EventEmitter {
   constructor(service) {
+    super();
     this.responseTimeEventKey = 'response.time';
     this.descriptor = service;
     this.api = null;
