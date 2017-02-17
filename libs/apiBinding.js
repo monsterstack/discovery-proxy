@@ -49,9 +49,13 @@ class ApiBinding {
         let proxyHttpClient = new proxyHttpClient();
 
         proxyHttpClient.request(method, url, headers, body).then((response) => {
-
+          if(response.error) {
+            obj.on.error(response);
+          } else {
+            obj.on.response(response);
+          }
         }).catch((error) => {
-
+          obj.on.error(error);
         });
       }
     }
