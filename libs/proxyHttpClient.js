@@ -41,13 +41,11 @@ class ProxyHttpClient {
     get(path, headers) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest(GET.toUpperCase(), path, headers, null /* no body */, (error, response) => {
-                if(error) {
-                    reject(error);
-                } else {
-                    resolve(response);
-                }
-            });
+            let request = self.unirest.get(path, headers);
+            request.timeout(DEFAULT_TIMEOUT);
+            request.end((response) => {
+                resolve(response);
+            })
         });
 
         return p;
@@ -56,12 +54,11 @@ class ProxyHttpClient {
     put(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest(GET.toUpperCase(), path, headers, body, (error, response) => {
-                if(error) {
-                    reject(error);
-                } else {
-                    resolve(response);
-                }
+            let request = self.unirest.put(path, headers);
+            request.timeout(DEFAULT_TIMEOUT);
+            request.send(body);
+            request.end((response) => {
+                resolve(response);
             });
         });
 
@@ -71,12 +68,11 @@ class ProxyHttpClient {
     post(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest(POST.toUpperCase(), path, headers, body, (error, response) => {
-                if(error) {
-                    reject(error);
-                } else {
-                    resolve(response);
-                }
+            let request = self.unirest.post(path, headers);
+            request.timeout(DEFAULT_TIMEOUT);
+            request.send(body);
+            request.end((response) => {
+                resolve(response);
             });
         });
 
@@ -86,12 +82,11 @@ class ProxyHttpClient {
     delete(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest(DELETE.toUpperCase(),path, headers, body, (error, response) => {
-                if(error) {
-                    reject(error);
-                } else {
-                    resolve(response);
-                }
+            let request = self.unirest.delete(path, headers);
+            request.timeout(DEFAULT_TIMEOUT);
+            request.send(body);
+            request.end((response) => {
+                resolve(response);
             });
         });
 
@@ -101,12 +96,10 @@ class ProxyHttpClient {
     head(path, headers) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest(HEAD.toUpperCase(), path, headers, null /* no body */, (error, response) => {
-                if(error) {
-                    reject(error);
-                } else {
-                    resolve(response);
-                }
+            let request = self.unirest.head(path, headers);
+            request.timeout(DEFAULT_TIMEOUT);
+            request.end((response) => {
+                resolve(response);
             });
         });
 
@@ -116,12 +109,10 @@ class ProxyHttpClient {
     patch(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest(PATCH.toUpperCase(), headers, body, (error, response) => {
-                if(error) {
-                    reject(error);
-                } else {
-                    resolve(response);
-                }
+            let request = self.unirest.patch(path, headers);
+            request.timeout(DEFAULT_TIMEOUT);
+            request.end((response) => {
+                resolve(response);
             });
         });
 
