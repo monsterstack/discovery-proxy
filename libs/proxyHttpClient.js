@@ -41,7 +41,7 @@ class ProxyHttpClient {
     get(path, headers) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.get(path, headers, null /* no body */, (error, response) => {
+            self.unirest(GET.toUpperCase(), path, headers, null /* no body */, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
