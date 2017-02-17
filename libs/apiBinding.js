@@ -3,7 +3,7 @@ const debug = require('debug')('apiBinding');
 const fetchSchema = require('fetch-swagger-schema');
 const SwaggerNodeClient = require('swagger-client');
 const Promise = require('promise');
-const ProxyHttpClient = require('./proxyHttpClient');
+const ProxyHttpClient = require('./proxyHttpClient').ProxyHttpClient;
 const Stopwatch = require("node-stopwatch").Stopwatch;
 const EventEmitter = require('events');
 
