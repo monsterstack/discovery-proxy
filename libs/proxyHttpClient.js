@@ -43,6 +43,8 @@ class ProxyHttpClient {
         let self = this;
         let p = new Promise((resolve, reject) => {
             let request = self.unirest.get(path, headers);
+            request.header('Content-Type', 'application/json');
+            request.header('Accept', 'application/json');
             request.timeout(DEFAULT_TIMEOUT);
             request.end((response) => {
                 resolve(response);
