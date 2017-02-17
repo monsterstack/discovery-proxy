@@ -3,6 +3,7 @@ const debug = require('debug')('apiBinding');
 const fetchSchema = require('fetch-swagger-schema');
 const SwaggerNodeClient = require('swagger-client');
 const Promise = require('promise');
+const ProxyHttpClient = require('./proxyHttpClient');
 
 class ApiBinding {
   constructor(service) {
@@ -46,7 +47,7 @@ class ApiBinding {
         let body = obj.body;
         let url = obj.url;
 
-        let proxyHttpClient = new proxyHttpClient();
+        let proxyHttpClient = new ProxyHttpClient();
 
         proxyHttpClient.request(method, url, headers, body).then((response) => {
           if(response.error) {
