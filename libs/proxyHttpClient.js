@@ -56,7 +56,7 @@ class ProxyHttpClient {
     put(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.put(path, headers, body, (error, response) => {
+            self.unirest(GET.toUpperCase(), path, headers, body, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -71,7 +71,7 @@ class ProxyHttpClient {
     post(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.post(path, headers, body, (error, response) => {
+            self.unirest(POST.toUpperCase(), path, headers, body, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -86,7 +86,7 @@ class ProxyHttpClient {
     delete(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.delete(pathpath, headers, body, (error, response) => {
+            self.unirest(DELETE.toUpperCase(),path, headers, body, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -101,7 +101,7 @@ class ProxyHttpClient {
     head(path, headers) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.head(pathpath, headers, null /* no body */, (error, response) => {
+            self.unirest(HEAD.toUpperCase(), path, headers, null /* no body */, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
@@ -116,7 +116,7 @@ class ProxyHttpClient {
     patch(path, headers, body) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.unirest.patch(pathpath, headers, body, (error, response) => {
+            self.unirest(PATCH.toUpperCase(), headers, body, (error, response) => {
                 if(error) {
                     reject(error);
                 } else {
