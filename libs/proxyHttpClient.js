@@ -2,6 +2,14 @@
 const Promise = require('promise');
 const unirest = require('unirest');
 
+// Http Method Types
+const POST = "POST";
+const PUT = "PUT";
+const GET = "GET";
+const DELETE = "DELETE";
+const PATCH = "PATCH";
+const HEAD = "HEAD";
+
 class ProxyHttpClient {
     constructor() {
         this.unirest = unirest;
