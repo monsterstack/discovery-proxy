@@ -9,6 +9,7 @@ const EventEmitter = require('events');
 
 class ApiBinding extends EventEmitter {
   constructor(service) {
+    this.RESPONSE_TIME_EVENT_KEY = 'response.time';
     this.descriptor = service;
     this.api = null;
   }
@@ -41,7 +42,7 @@ class ApiBinding extends EventEmitter {
   }
 
   _emitResponseTime(responseTime) {
-    this.emit('response.time', { serviceId: self.service.id, value: responseTime});
+    this.emit(this.RESPONSE_TIME_EVENT_KEY, { serviceId: self.service.id, value: responseTime});
   }
 
 
