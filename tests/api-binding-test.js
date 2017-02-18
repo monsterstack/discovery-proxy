@@ -21,7 +21,6 @@ describe('discovery-proxy', () => {
     let apiBinding = new ApiBinding(service);
 
     apiBinding.bind().then((api) => {
-      console.log(api);
       assert(api, "Binding didn't fail");
       done();
     }).catch((err) => {
@@ -30,6 +29,28 @@ describe('discovery-proxy', () => {
     });
 
   });
+
+  it('api request works', (done) => {
+    let service = {
+      endpoint: 'http://localhost:7616',
+      schemaRoute: '/swagger.json'
+    };
+    console.log("Creating Binding");
+    let apiBinding = new ApiBinding(service);
+
+    apiBinding.bind().then((service) => {
+      service.api.services.getServices({}, (response) => {
+        console.log(response.obj);
+        done();
+      }, (err) => {
+        console.log(err.obj);
+        done(new Error("Request Failed"));
+      });  
+    }).catch((err) => {
+      done(err);
+    });
+  });
+
 
   after(() => {
 

@@ -24,9 +24,13 @@ class ApiBinding extends EventEmitter {
     let p = new Promise((resolve, reject) => {
       try {
         let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
+
+        let requestAgent = require('superagent');
+
         let api = new SwaggerNodeClient({
           url: schemaUrl,
-          // client: self._httpClient(),
+          //client: self._httpClient(),
+          requestAgent: requestAgent,
           success: () => {
             self.api = api;
             resolve(self);
