@@ -26,7 +26,7 @@ class ApiBinding extends EventEmitter {
         let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
         let api = new SwaggerNodeClient({
           url: schemaUrl,
-          //client: self._httpClient(),
+          // client: self._httpClient(),
           success: () => {
             self.api = api;
             resolve(self);
@@ -60,16 +60,8 @@ class ApiBinding extends EventEmitter {
         let stopwatch = Stopwatch.create();
         stopwatch.start();
         proxyHttpClient.request(method, url, headers, body).then((response) => {
-          if(response.error) {
-            console.log(`Error ${response.error}`);
             stopwatch.stop();
-            obj.on.error(response);
-          } else {
-            stopwatch.stop();
-            let elapsedTime = stopwatch.elapsedMilliseconds;
-            self._emitResponseTime(elapsedTime);
             obj.on.response(response);
-          }
         }).catch((error) => {
           stopwatch.stop();
           obj.on.error(error);

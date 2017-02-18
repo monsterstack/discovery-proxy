@@ -21,7 +21,7 @@ describe('discovery-proxy-http', () => {
     let proxyHttpClient = new ProxyHttpClient();
 
     proxyHttpClient.request('get', service.endpoint+service.schemaRoute, {}).then((response) => {
-        console.log(response.body);
+        console.log(response);
         done();
     }).catch((error) => {
         done(error);

@@ -48,8 +48,7 @@ class ProxyHttpClient {
             } else {
                 myHeaders = {'Content-Type': 'application/json'};
             }
-
-            needle.get(path, { json: true, headers: myHeaders }, (error, response) => {
+            needle.get(path, { json: true, headers: myHeaders }, function(error, response) {
                 if(error) {
                     reject(error);
                 } else {
