@@ -1,30 +1,36 @@
 'use strict';
 
 const assert = require('assert');
-const requestAgent = require('superagent-extend');
+//const requestAgent = require('superagent-extend');
+const RequestAgent = require('../libs/proxyAgent').ProxyAgent;
+const URL = "http://www.google.com?hello=ff";
 
 /**
  * Agent Response Interceptor
  */
 describe('agent-response-intc', () => {
+   
 
-    it('response performance', (done) => {
+    it('proxy agent response', (done) => {
         let performance;
-        requestAgent.util.addResIntc((res) => {
+
+        let requestAgent = new RequestAgent();
+        requestAgent.addResIntc((res) => {
+            console.log(res.performance);
             performance = res.performance;
         });
 
-        requestAgent.request['get']('http://www.google.com').done().then((res) => {
-            if(performance) {
-                console.log(performance);
+        // This is how swagger-client makes the call
+        requestAgent.get(URL).send().end((err, res) => {
+            if(err) {
+                done(err);
+            } else if(performance) {
                 done();
             } else {
                 done(new Error("Failed to get performance"))
             }
         
-        }).catch((err) => {
-          done(err);  
-        });
+        })
     });
 
 });
