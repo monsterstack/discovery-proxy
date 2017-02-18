@@ -14,6 +14,7 @@ describe('discovery-proxy', () => {
 
   it('api created when binding occurs', (done) => {
     let service = {
+      id: '1111',
       endpoint: 'http://localhost:7616',
       schemaRoute: '/swagger.json'
     };
@@ -35,12 +36,15 @@ describe('discovery-proxy', () => {
       endpoint: 'http://localhost:7616',
       schemaRoute: '/swagger.json'
     };
-    console.log("Creating Binding");
     let apiBinding = new ApiBinding(service);
+
+    apiBinding.on('response.performance', (perf) => {
+      console.log(perf);
+    });
 
     apiBinding.bind().then((service) => {
       service.api.services.getServices({}, (response) => {
-        console.log(response.obj);
+        console.log(response);
         done();
       }, (err) => {
         console.log(err.obj);

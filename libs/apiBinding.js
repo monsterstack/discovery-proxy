@@ -3,12 +3,8 @@ const debug = require('debug')('apiBinding');
 const fetchSchema = require('fetch-swagger-schema');
 const SwaggerNodeClient = require('swagger-client');
 const Promise = require('promise');
-const ProxyHttpClient = require('./proxyHttpClient').ProxyHttpClient;
 
 const EventEmitter = require('events');
-
-const requestAgent = require('superagent-extend');
-
 
 class ApiBinding extends EventEmitter {
   constructor(service) {
@@ -16,6 +12,12 @@ class ApiBinding extends EventEmitter {
     this.responseTimeEventKey = 'response.time';
     this.descriptor = service;
     this.api = null;
+
+    this.requestAgent = require('superagent-extend');
+    let self = this;
+    this.requestAgent.util.addResIntc((res) => {
+      self.emit('response.time', { url: res.url, time: response.performance.requestEnd - response.performance.requestStart });
+    });
   }
 
   api() {
@@ -27,11 +29,9 @@ class ApiBinding extends EventEmitter {
     let p = new Promise((resolve, reject) => {
       try {
         let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
-
         let api = new SwaggerNodeClient({
           url: schemaUrl,
-          //client: self._httpClient(),
-          requestAgent: requestAgent.request,
+          requestAgent: self.requestAgent.request,
           success: () => {
             self.api = api;
             resolve(self);
@@ -49,30 +49,6 @@ class ApiBinding extends EventEmitter {
 
   _emitResponseTime(responseTime) {
     this.emit(this.responseTimeEventKey, { serviceId: self.service.id, value: responseTime});
-  }
-
-
-  _httpClient() {
-    let self = this;
-    return {
-      execute: (obj) => {
-        let method = obj.method;
-        let headers = obj.headers;
-        let body = obj.body;
-        let url = obj.url;
-
-        let proxyHttpClient = new ProxyHttpClient();
-        let stopwatch = Stopwatch.create();
-        stopwatch.start();
-        proxyHttpClient.request(method, url, headers, body).then((response) => {
-            stopwatch.stop();
-            obj.on.response(response);
-        }).catch((error) => {
-          stopwatch.stop();
-          obj.on.error(error);
-        });
-      }
-    }
   }
 }
 
