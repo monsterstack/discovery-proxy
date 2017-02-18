@@ -4,8 +4,11 @@ const fetchSchema = require('fetch-swagger-schema');
 const SwaggerNodeClient = require('swagger-client');
 const Promise = require('promise');
 const ProxyHttpClient = require('./proxyHttpClient').ProxyHttpClient;
-const Stopwatch = require("node-stopwatch").Stopwatch;
+
 const EventEmitter = require('events');
+
+const requestAgent = require('superagent-extend');
+
 
 class ApiBinding extends EventEmitter {
   constructor(service) {
@@ -25,13 +28,10 @@ class ApiBinding extends EventEmitter {
       try {
         let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
 
-        let requestAgent = require('superagent');
-        requestAgent.serviceId = self.descriptor.id;
-
         let api = new SwaggerNodeClient({
           url: schemaUrl,
           //client: self._httpClient(),
-          requestAgent: requestAgent,
+          requestAgent: requestAgent.request,
           success: () => {
             self.api = api;
             resolve(self);
