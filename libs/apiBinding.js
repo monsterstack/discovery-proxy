@@ -26,6 +26,7 @@ class ApiBinding extends EventEmitter {
         let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
 
         let requestAgent = require('superagent');
+        requestAgent.serviceId = self.descriptor.id;
 
         let api = new SwaggerNodeClient({
           url: schemaUrl,
