@@ -16,7 +16,7 @@ class ApiBinding extends EventEmitter {
     this.api = null;
 
     //this.requestAgent = require('superagent-extend');
-    this.requestAgent = new ProxyAgent();
+    //this.requestAgent = new ProxyAgent();
     let self = this;
     this.requestAgent.addResIntc((res) => {
       console.log(res.performance);
