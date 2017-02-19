@@ -144,6 +144,22 @@ module.exports = class Proxy {
     });
   }
 
+  sideLoadService(service) {
+    service._id = service.id;
+    let p = new Promise((resolve, reject) => {
+      this.db.insertOne(service, (err, doc) => {
+        if(err) {
+          console.log(err);
+          reject(err);
+        } else {
+          console.log(`Added Service ${service.type} ${service.id}`);
+          resolve(doc);
+        }
+      });
+    });
+    return p;
+  }
+
   bind(options) {
     console.log('Binding');
     let _added = (service) => {
