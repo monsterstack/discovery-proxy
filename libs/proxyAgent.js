@@ -54,12 +54,6 @@ class ProxyAgent {
         return this;
     }
 
-    trace(path) {
-        this.method = 'trace';
-        this.path = path;
-        return this;
-    }
-
     headers(headers) {
         this.headers = headers;
         return this;
@@ -70,7 +64,7 @@ class ProxyAgent {
     }
 
     query(parameterObj) {
-        let path = this.path;
+        let path = this.path || "";
         let keys = Object.keys(parameterObj);
 
         let hasQuery = false;
