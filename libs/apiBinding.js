@@ -17,12 +17,12 @@ class ApiBinding extends EventEmitter {
 
     //this.requestAgent = require('superagent-extend');
     //this.requestAgent = new ProxyAgent();
-    let self = this;
-    this.requestAgent.addResIntc((res) => {
-      console.log(res.performance);
-      console.log(res.url);
-      self.emit('response.time', { url: res.url, time: res.performance.requestEnd - res.performance.requestStart });
-    });
+    // let self = this;
+    // this.requestAgent.addResIntc((res) => {
+    //   console.log(res.performance);
+    //   console.log(res.url);
+    //   self.emit('response.time', { url: res.url, time: res.performance.requestEnd - res.performance.requestStart });
+    // });
   }
 
   api() {
