@@ -3,7 +3,8 @@ const needle = require('needle');
 const HttpStatus = require('http-status');
 
 class ProxyAgent {
-    constructor() {
+    constructor(serviceId) {
+        this.serviceId;
         this.itcList = [];
         this.headers = {};
         this.body = null;
