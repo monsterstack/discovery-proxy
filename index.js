@@ -81,4 +81,7 @@ module.exports.client = discoveryClient.client;
 exports.exitHandlerFactory = createErrorHandler;
 module.exports.connect = connect;
 
+
+// For Testing
 module.exports.ApiBinding = ApiBinding;
+module.exports.Proxy = Proxy;
