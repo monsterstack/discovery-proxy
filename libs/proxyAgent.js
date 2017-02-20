@@ -135,7 +135,7 @@ class ProxyAgent {
         } else if(this.method === 'post') {
             needle.post(this.path, this.body, { headers: this.headers }, (err, res) => {
                 if(res) {
-                    res = self._formRes(res, null);
+                    res = self._formRes(res, p);
                 }
                 self.itcList.forEach((itc) => {
                     itc(res);
