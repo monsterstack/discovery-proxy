@@ -7,23 +7,19 @@ const ApiBinding = require('./apiBinding');
 const QueueBinding = require('./queueBinding');
 
 module.exports = class Proxy {
-  constructor() {
-    this.db = PicoDB.Create();
-    this.id = uuid.v1();
-    this._initDb();
-  }
-
   constructor(client) {
     this.client = client;
     this.db = PicoDB.Create();
     this.id = uuid.v1();
 
-    let self = this;
-    this.client.onDisconnect(() => {
-      self.isBound = false;
-      console.log(">>>>>>>>>>>>>>>>>> Handlers Cleared >>>>>>>>>>>>");
-      self.client.clearHandlers();
-    });
+    if(this.client) {
+      let self = this;
+      this.client.onDisconnect(() => {
+        self.isBound = false;
+        console.log(">>>>>>>>>>>>>>>>>> Handlers Cleared >>>>>>>>>>>>");
+        self.client.clearHandlers();
+      });
+    }
 
     this._initDb();
   }
