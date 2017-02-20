@@ -133,6 +133,7 @@ class ProxyAgent {
                 callback(err, res);
             });
         } else if(this.method === 'post') {
+            let p = self._startPerformance();
             needle.post(this.path, this.body, { headers: this.headers }, (err, res) => {
                 if(res) {
                     res = self._formRes(res, p);
