@@ -30,7 +30,7 @@ class ApiBinding extends EventEmitter {
           time: res.performance.requestEnd - res.performance.requestStart 
         };
         console.log(metric);
-        self.emit('response.time', metric);
+        self.emit(self.responseTimeEventKey, metric);
       }
     });
   }
