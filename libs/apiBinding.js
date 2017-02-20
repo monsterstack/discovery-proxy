@@ -25,7 +25,7 @@ class ApiBinding extends EventEmitter {
       if(res.performance) {
         console.log('Emitting performance for request');
         let metric = {
-          serviceId: self.requestAgent.serviceId, 
+          serviceId: service._id, 
           url: res.url, 
           time: res.performance.requestEnd - res.performance.requestStart 
         };
