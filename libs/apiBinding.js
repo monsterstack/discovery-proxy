@@ -23,6 +23,7 @@ class ApiBinding extends EventEmitter {
       console.log(res.performance);
       console.log(res.url);
       if(res.performance) {
+        console.log('Emitting performance for request');
         self.emit('response.time', { 
           serviceId: self.requestAgent.serviceId, 
           url: res.url, 
