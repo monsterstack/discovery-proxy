@@ -103,7 +103,7 @@ module.exports = class Proxy {
       apiBinding.bind().then((api) => {
         api.on(api.responseTimeEventKey, (responseTime) => {
           if(responseTime) {
-            responseTime.serviceId = service.id;
+            responseTime.serviceId = service._id;
           }
           // Log..
           console.log(responseTime);
