@@ -4,7 +4,7 @@ const HttpStatus = require('http-status');
 
 class ProxyAgent {
     constructor(serviceId) {
-        this.serviceId;
+        this.serviceId = serviceId;
         this.itcList = [];
         this.headers = {};
         this.body = null;
