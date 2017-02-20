@@ -21,11 +21,13 @@ class ApiBinding extends EventEmitter {
     this.requestAgent.addResIntc((res) => {
       console.log(res.performance);
       console.log(res.url);
-      self.emit('response.time', { 
-        serviceId: self.requestAgent.serviceId, 
-        url: res.url, 
-        time: res.performance.requestEnd - res.performance.requestStart 
-      });
+      if(res.performance) {
+        self.emit('response.time', { 
+          serviceId: self.requestAgent.serviceId, 
+          url: res.url, 
+          time: res.performance.requestEnd - res.performance.requestStart 
+        });
+      }
     });
   }
 
