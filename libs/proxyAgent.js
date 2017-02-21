@@ -121,79 +121,111 @@ class ProxyAgent {
     end(callback) {
         let self = this;
         if(this.method === 'get') {
-            let p = self._startPerformance();
-            needle.get(this.path, { headers: this.headers }, (err, res) => {
-                if(res) {
-                    res = self._formRes(res, p);
-                }
-
-                self.itcList.forEach((itc) => {
-                    itc(res);
-                });
-                callback(err, res);
-            });
+            self._get(self.path, self.headers, callback);
         } else if(this.method === 'post') {
-            let p = self._startPerformance();
-            needle.post(this.path, this.body, { headers: this.headers }, (err, res) => {
-                if(res) {
-                    res = self._formRes(res, p);
-                }
-                self.itcList.forEach((itc) => {
-                    itc(res);
-                });
-                callback(err, res);
-            });
+            self._post(self.path, self.body, self.headers, callback);
         } else if(this.method === 'put') {
-            let p = self._startPerformance();
-            needle.put(this.path, this.body, { headers: this.headers }, (err, res) => {
-                if(res) {
-                    res = self._formRes(res, p);
-                }
-
-                self.itcList.forEach((itc) => {
-                    itc(res);
-                });
-                callback(err, res);
-            });
-        } else if(this.method === 'patch') {
-            let p = self._startPerformance();
-            needle.patch(this.path, this.body, { headers: this.headers }, (err, res) => {
-                if(res) {
-                    res = self._formRes(res, p);
-                }
-
-                self.itcList.forEach((itc) => {
-                    itc(res);
-                });
-                callback(err, res);
-            });
-        } else if(this.method === 'delete') {
-            let p = self._startPerformance();
-            needle.delete(this.path, this.body, { headers: this.headers }, (err, res) => {
-                if(res) {
-                    res = self._formRes(res, p);
-                }
-
-                self.itcList.forEach((itc) => {
-                    itc(res);
-                });
-                callback(err, res);
-            });
-        } else if(this.method === 'head') {
-            let p = self._startPerformance();
-            needle.head(this.path, { headers: this.headers }, (err, res) => {
-                if(res) {
-                    res = self._formRes(res, p);
-                }
-
-                self.itcList.forEach((itc) => {
-                    itc(res);
-                });
-                callback(err, res);
-            });
+            self._put(self.path, self.body, self.headers, callback);
+        } else if(self.method === 'patch') {
+            self._patch(self.path, self.body, self.headers, callback);
+        } else if(self.method === 'delete') {
+            self._delete(self.path, self.body, self.headers, callback);
+        } else if(self.method === 'head') {
+            self._head(self.path, self.headers, callback);
         } else {
             callback(new Error(`Unsupported method ${this.method}`));
         }
+    }
+
+    _get(path, headers, callback) {
+        let self = this;
+        let p = self._startPerformance();
+        needle.get(path, { headers: headers }, (err, res) => {
+            if(res) {
+                res = self._formRes(res, p);
+            }
+
+            self.itcList.forEach((itc) => {
+                itc(res);
+            });
+            callback(err, res);
+        });
+    }
+
+    _patch(path, body, headers, callback) {
+        let self = this;
+        let p = self._startPerformance();
+        needle.patch(path, body, { headers: headers }, (err, res) => {
+            if(res) {
+                res = self._formRes(res, p);
+            }
+
+            self.itcList.forEach((itc) => {
+                itc(res);
+            });
+            callback(err, res);
+        });
+    }
+
+     _post(path, body, headers, callback) {
+        let self = this;
+        let p = self._startPerformance();
+        needle.post(path, body, { headers: headers }, (err, res) => {
+            if(res) {
+                res = self._formRes(res, p);
+            }
+
+            self.itcList.forEach((itc) => {
+                itc(res);
+            });
+            callback(err, res);
+        });
+    }
+
+
+    _put(path, body, headers, callback) {
+        let self = this;
+        let p = self._startPerformance();
+        needle.put(path, body, { headers: headers }, (err, res) => {
+            if(res) {
+                res = self._formRes(res, p);
+            }
+
+            self.itcList.forEach((itc) => {
+                itc(res);
+            });
+            callback(err, res);
+        });
+    }
+
+    _delete(path, body, headers, callback) {
+        let self = this;
+        let p = self._startPerformance();
+        needle.delete(path, body, { headers: headers }, (err, res) => {
+            if(res) {
+                res = self._formRes(res, p);
+            }
+
+            self.itcList.forEach((itc) => {
+                itc(res);
+            });
+            callback(err, res);
+        });
+    }
+
+    _head(path, headers, callback) {
+        let self = this;
+        let p = self._startPerformance();
+        needle.head(path, { headers: headers }, (err, res) => {
+            if(res) {
+                res = self._formRes(res, p);
+            }
+
+            self.itcList.forEach((itc) => {
+                itc(res);
+            });
+            callback(err, res);
+        });
     }
 }
 
