@@ -11,7 +11,6 @@ class ProxyAgent extends HttpAgent {
         this.body = null;
         this.path = null;
     }
-
     set(key, value) {
         if(this.headers)
             this.headers[key] = value;
@@ -20,10 +19,6 @@ class ProxyAgent extends HttpAgent {
             this.headers[key] = value;
         }
         return this;
-    }
-
-    addResIntc(itc) {
-        this.itcList.push(itc);
     }
 
     get(path) {

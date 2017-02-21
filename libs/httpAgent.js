@@ -6,6 +6,10 @@ class HttpAgent {
         this.itcList = [];
     }
 
+    addResIntc(itc) {
+        this.itcList.push(itc);
+    }
+    
      _startPerformance() {
         return {
             requestStart: Date.now()
