@@ -1,11 +1,12 @@
 'use strict';
 const needle = require('needle');
 const HttpStatus = require('http-status');
+const HttpAgent = require('./httpAgent').HttpAgent;
 
-class ProxyAgent {
+class ProxyAgent extends HttpAgent {
     constructor(serviceId) {
+        super();
         this.serviceId = serviceId;
-        this.itcList = [];
         this.headers = {};
         this.body = null;
         this.path = null;
@@ -97,34 +98,13 @@ class ProxyAgent {
         return this;
     }
 
-    _startPerformance() {
-        return {
-            requestStart: Date.now()
-        };
-    }
-
-    _formRes(res, p) {
-        res.performance = {
-            requestStart: 0,
-            requestStop: 10
-        };
-
-        p.requestEnd = Date.now();
-
-        res.performance = p;
-        res.status = res.statusCode;
-        res.statusText = HttpStatus[res.statusCode];
-        res.url = this.path;
-        return res;
-    }
-
     end(callback) {
         let self = this;
-        if(this.method === 'get') {
+        if(self.method === 'get') {
             self._get(self.path, self.headers, callback);
-        } else if(this.method === 'post') {
+        } else if(self.method === 'post') {
             self._post(self.path, self.body, self.headers, callback);
-        } else if(this.method === 'put') {
+        } else if(self.method === 'put') {
             self._put(self.path, self.body, self.headers, callback);
         } else if(self.method === 'patch') {
             self._patch(self.path, self.body, self.headers, callback);
@@ -137,96 +117,7 @@ class ProxyAgent {
         }
     }
 
-    _get(path, headers, callback) {
-        let self = this;
-        let p = self._startPerformance();
-        needle.get(path, { headers: headers }, (err, res) => {
-            if(res) {
-                res = self._formRes(res, p);
-            }
 
-            self.itcList.forEach((itc) => {
-                itc(res);
-            });
-            callback(err, res);
-        });
-    }
-
-    _patch(path, body, headers, callback) {
-        let self = this;
-        let p = self._startPerformance();
-        needle.patch(path, body, { headers: headers }, (err, res) => {
-            if(res) {
-                res = self._formRes(res, p);
-            }
-
-            self.itcList.forEach((itc) => {
-                itc(res);
-            });
-            callback(err, res);
-        });
-    }
-
-     _post(path, body, headers, callback) {
-        let self = this;
-        let p = self._startPerformance();
-        needle.post(path, body, { headers: headers }, (err, res) => {
-            if(res) {
-                res = self._formRes(res, p);
-            }
-
-            self.itcList.forEach((itc) => {
-                itc(res);
-            });
-            callback(err, res);
-        });
-    }
-
-
-    _put(path, body, headers, callback) {
-        let self = this;
-        let p = self._startPerformance();
-        needle.put(path, body, { headers: headers }, (err, res) => {
-            if(res) {
-                res = self._formRes(res, p);
-            }
-
-            self.itcList.forEach((itc) => {
-                itc(res);
-            });
-            callback(err, res);
-        });
-    }
-
-    _delete(path, body, headers, callback) {
-        let self = this;
-        let p = self._startPerformance();
-        needle.delete(path, body, { headers: headers }, (err, res) => {
-            if(res) {
-                res = self._formRes(res, p);
-            }
-
-            self.itcList.forEach((itc) => {
-                itc(res);
-            });
-            callback(err, res);
-        });
-    }
-
-    _head(path, headers, callback) {
-        let self = this;
-        let p = self._startPerformance();
-        needle.head(path, { headers: headers }, (err, res) => {
-            if(res) {
-                res = self._formRes(res, p);
-            }
-
-            self.itcList.forEach((itc) => {
-                itc(res);
-            });
-            callback(err, res);
-        });
-    }
 }
 
 
