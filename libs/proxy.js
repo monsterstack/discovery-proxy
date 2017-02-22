@@ -56,6 +56,11 @@ module.exports = class Proxy {
     return p;
   }
 
+  sendResponseTimeMetric(responseTime) {
+    console.log(`Sending response.time metric for ${responseTime.serviceId}`);
+    // this.client.sendResponseTimeMetric(..)
+  }
+
   apiForServiceType(type) {
     let self = this;
     let p = new Promise((resolve, reject) => {
@@ -102,8 +107,8 @@ module.exports = class Proxy {
       let apiBinding = new ApiBinding(service);
       apiBinding.bind().then((api) => {
         api.on(api.responseTimeEventKey, (responseTime) => {
-          // Log..
-          console.log(responseTime);
+          // Send
+          self.sendResponseTimeMetric(responseTime);
         });
         resolve(api);
       }).catch((err) => {
