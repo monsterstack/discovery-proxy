@@ -117,7 +117,8 @@ module.exports = class Proxy {
           };
           self.sendResponseTimeMetric(metric);
         });
-
+        return api;
+      }).then((api) => {
         self.apiCache.set(service._id, api);
         resolve(api);
       }).catch((err) => {
