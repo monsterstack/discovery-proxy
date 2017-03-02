@@ -2,7 +2,7 @@
 const uuid = require('node-uuid');
 const Promise = require('promise');
 const PicoDB = require('picodb');
-
+const NodeCache = require('node-cache');
 const ApiBinding = require('./apiBinding');
 const QueueBinding = require('./queueBinding');
 
@@ -10,6 +10,7 @@ module.exports = class Proxy {
   constructor(client) {
     this.client = client;
     this.db = PicoDB.Create();
+    this.apiCache = new NodeCache({ stdTTL: 15*60, checkperiod: 1*60 });
     this.id = uuid.v1();
 
     if(this.client) {
@@ -116,6 +117,8 @@ module.exports = class Proxy {
           };
           self.sendResponseTimeMetric(metric);
         });
+
+        self.apiCache.set(service._id, api);
         resolve(api);
       }).catch((err) => {
         reject(err);

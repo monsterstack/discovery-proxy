@@ -24,6 +24,7 @@
     "http-status": "^1.0.1",
     "jsonschema": "^1.1.1",
     "needle": "^1.4.5",
+    "node-cache": "^4.1.1",
     "node-stopwatch": "0.0.1",
     "node-uuid": "^1.4.7",
     "picodb": "^0.8.0",
