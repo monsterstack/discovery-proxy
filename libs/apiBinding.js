@@ -20,9 +20,10 @@ class ApiBinding extends EventEmitter {
     let self = this;
     this.requestAgent.addResIntc((res) => {
       console.log(self.requestAgent.serviceId);
-      console.log(res.performance);
-      console.log(res.url);
-      if(res.performance) {
+
+      if(res && res.performance) {
+        console.log(res.performance);
+        console.log(res.url);
         console.log('Emitting performance for request');
         let metric = {
           serviceId: service._id, 
