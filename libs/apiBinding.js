@@ -63,7 +63,7 @@ class ApiBinding extends EventEmitter {
   }
 
   _emitResponseTime(responseTime) {
-    this.emit(this.responseTimeEventKey, { serviceId: self.service.id, value: responseTime});
+    this.emit(this.responseTimeEventKey, { serviceId: self.service.id, value: responseTime, type: this.responseTimeEventKey});
   }
 }
 

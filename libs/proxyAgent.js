@@ -3,6 +3,17 @@ const needle = require('needle');
 const HttpStatus = require('http-status');
 const HttpAgent = require('./httpAgent').HttpAgent;
 
+// HTTP Methods
+const GET = 'get';
+const POST = 'post';
+const PUT = 'put';
+const HEAD = 'head';
+const PATCH = 'patch';
+const DELETE = 'delete';
+
+// Headers
+const ACCEPT_HEADER = 'Accept';
+
 class ProxyAgent extends HttpAgent {
     constructor(serviceId) {
         super();
@@ -22,31 +33,31 @@ class ProxyAgent extends HttpAgent {
     }
 
     get(path) {
-        this.method = 'get';
+        this.method = GET;
         this.path = path;
         return this;
     }
 
     post(path) {
-        this.method = 'post';
+        this.method = POST;
         this.path = path;
         return this;
     }
 
     put(path) {
-        this.method = 'put';
+        this.method = PUT;
         this.path = path;
         return this;
     }
 
     delete(path) {
-        this.method = 'delete';
+        this.method = DELETE;
         this.path = path;
         return this;
     }
 
     head(path) {
-        this.method = 'head';
+        this.method = HEAD;
         this.path = path;
         return this;
     }
@@ -82,9 +93,10 @@ class ProxyAgent extends HttpAgent {
 
     accept(type) {
         if(this.headers)
-            this.headers['Accept'] = type;
+            this.headers[ACCEPT_HEADER] = type;
         else {
-            this.headers = { 'Accept': type };
+            this.headers = {};
+            this.headers[ACCEPT_HEADER] = type;
         }
     }
 
@@ -93,19 +105,26 @@ class ProxyAgent extends HttpAgent {
         return this;
     }
 
+    /**
+     * End.  Invoke the http request to the service.
+     * 
+     * @TODO
+     * This callback needs to be wrapped such that any connection failure or timeout this
+     * caught and emitted marking the 'service' offline.
+     */
     end(callback) {
         let self = this;
-        if(self.method === 'get') {
+        if(self.method === GET) {
             self._get(self.path, self.headers, callback);
-        } else if(self.method === 'post') {
+        } else if(self.method === POST) {
             self._post(self.path, self.body, self.headers, callback);
-        } else if(self.method === 'put') {
+        } else if(self.method === PUT) {
             self._put(self.path, self.body, self.headers, callback);
-        } else if(self.method === 'patch') {
+        } else if(self.method === PATCH) {
             self._patch(self.path, self.body, self.headers, callback);
-        } else if(self.method === 'delete') {
+        } else if(self.method === DELETE) {
             self._delete(self.path, self.body, self.headers, callback);
-        } else if(self.method === 'head') {
+        } else if(self.method === HEAD) {
             self._head(self.path, self.headers, callback);
         } else {
             callback(new Error(`Unsupported method ${this.method}`));
