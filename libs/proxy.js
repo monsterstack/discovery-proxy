@@ -58,7 +58,7 @@ module.exports = class Proxy {
 
   sendResponseTimeMetric(responseTime) {
     console.log(`Sending response.time metric for ${responseTime.serviceId}`);
-    // this.client.sendResponseTimeMetric(..)
+    this.client.sendResponseTimeMetric(responseTime);
   }
 
   apiForServiceType(type) {
