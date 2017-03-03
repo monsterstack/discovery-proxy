@@ -63,6 +63,11 @@ module.exports = class Proxy {
       this.client.sendResponseTimeMetric(responseTime);
   }
 
+  sendOfflineStatus(serviceId) {
+    if(this.client)
+      this.client.sendOfflineStatus(serviceId);
+  }
+
   apiForServiceType(type) {
     let self = this;
     let p = new Promise((resolve, reject) => {
