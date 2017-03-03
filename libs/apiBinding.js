@@ -41,7 +41,11 @@ class ApiBinding extends EventEmitter {
 
   onConnectionError(cb) {
     this.requestAgent.onConnectionError((connectionErrEvent) => {
-      cb(connectionErrEvent);
+      if(connectionErrEvent.hasOwnProperty('err') && connectionErrEvent.hasOwnProperty('serviceId')) {
+        cb(connectionErrEvent);
+      } else {
+        throw new Error('Invalid Connection Error Event Received');
+      }
     });
   }
 

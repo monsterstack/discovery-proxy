@@ -30,7 +30,7 @@ class ProxyAgent extends HttpAgent {
                 cb({serviceId: self.id, err: err});
             }
         }
-        
+
         this.on('connection.err', error(cb));
     }
 
