@@ -3,7 +3,6 @@
 const assert = require('assert');
 //const requestAgent = require('superagent-extend');
 const RequestAgent = require('../libs/proxyAgent').ProxyAgent;
-const URL = "http://www.google.com?hello=ff";
 
 /**
  * Agent Response Interceptor
@@ -20,8 +19,9 @@ describe('agent-response-intc', () => {
             performance = res.performance;
         });
 
+        let url = "http://www.google.com?hello=ff";
         // This is how swagger-client makes the call
-        requestAgent.get(URL).send().end((err, res) => {
+        requestAgent.get(url).send().end((err, res) => {
             if(err) {
                 done(err);
             } else if(performance) {
@@ -32,5 +32,23 @@ describe('agent-response-intc', () => {
         
         })
     });
+
+    it('proxy agent emits connectionError', (done) => {
+        let requestAgent = new RequestAgent();
+        let connectionErrorOccured = false;
+        requestAgent.onConnectionError((connectionErrEvent) => {
+            console.log(connectionErrEvent);
+            connectionErrorOccured = true;
+        });
+
+        let url = "http://10.0.1.65/health";
+        requestAgent.get(url).send().end((err, res) => {
+            if(connectionErrorOccured) {
+                done();
+            } else {
+                done(new Error("Connection Error event never received"));
+            }
+        });
+    }).timeout(135000);
 
 });

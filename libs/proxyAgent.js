@@ -22,6 +22,18 @@ class ProxyAgent extends HttpAgent {
         this.body = null;
         this.path = null;
     }
+
+    onConnectionError(cb) {
+        let self = this;
+        let error = (cb) => {
+            return (err) => {
+                cb({serviceId: self.id, err: err});
+            }
+        }
+        
+        this.on('connection.err', error(cb));
+    }
+
     set(key, value) {
         if(this.headers)
             this.headers[key] = value;

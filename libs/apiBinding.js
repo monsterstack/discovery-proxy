@@ -17,6 +17,9 @@ class ApiBinding extends EventEmitter {
 
     this.requestAgent = require('superagent-extend');
     this.requestAgent = new ProxyAgent(service._id);
+
+    
+
     let self = this;
     this.requestAgent.addResIntc((res) => {
       console.log(self.requestAgent.serviceId);
@@ -33,6 +36,12 @@ class ApiBinding extends EventEmitter {
         console.log(metric);
         self.emit(self.responseTimeEventKey, metric);
       }
+    });
+  }
+
+  onConnectionError(cb) {
+    this.requestAgent.onConnectionError((connectionErrEvent) => {
+      cb(connectionErrEvent);
     });
   }
 

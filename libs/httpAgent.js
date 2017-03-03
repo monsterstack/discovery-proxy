@@ -1,6 +1,7 @@
 'use strict';
 const needle = require('needle');
 const HttpStatus = require('http-status');
+const EventEmitter = require('events');
 
 const handleResponse = (agent, perf, callback) => {
     return (err, res) => {
@@ -12,12 +13,41 @@ const handleResponse = (agent, perf, callback) => {
         self.itcList.forEach((itc) => {
             itc(res);
         });
+
+        if(err) {
+            if (err.code == "ENOTFOUND") {
+                console.log("[ERROR] No device found at this address!");
+                agent.emit('connection.err', err);
+            }
+
+            if (err.code == "ECONNREFUSED") {
+                console.log("[ERROR] Connection reset! Please check the IP.");
+                agent.emit('connection.err', err);
+            } 
+
+            if (err.code == "ECONNRESET") {
+                console.log("[ERROR] Connection refused! Please check the IP.");
+                agent.emit('connection.err', err);
+            }
+
+            if (err.code == "ETIMEDOUT") {
+                console.log("[ERROR] Connection timedout! Please check the IP.");
+                agent.emit('connection.err', err);
+            }
+
+            if (err.code == "ESOCKETTIMEDOUT") {
+                console.log("[ERROR] Connection timedout! Please check the IP.");
+                agent.emit('connection.err', err);
+            }
+        }
+
         callback(err, res);
     }
 }
 
-class HttpAgent {
+class HttpAgent extends EventEmitter {
     constructor() {
+        super();
         this.itcList = [];
     }
 

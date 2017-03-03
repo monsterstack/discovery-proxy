@@ -107,6 +107,11 @@ module.exports = class Proxy {
     let self = this;
     let p = new Promise((resolve, reject) => {
       let apiBinding = new ApiBinding(service);
+      apiBinding.onConnectionError((connectionErrEvent) => {
+        console.log('Connection Err Event');
+        console.log(connectionErrEvent);
+      });
+
       apiBinding.bind().then((api) => {
         api.on(api.responseTimeEventKey, (responseTimeMetric) => {
           // Send
