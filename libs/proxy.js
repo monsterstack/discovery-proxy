@@ -2,7 +2,7 @@
 const uuid = require('node-uuid');
 const Promise = require('promise');
 const PicoDB = require('picodb');
-const NodeCache = require('node-cache');
+const ApiCache = require('./apiCache').ApiCache;
 const ApiBinding = require('./apiBinding');
 const QueueBinding = require('./queueBinding');
 
@@ -10,7 +10,7 @@ module.exports = class Proxy {
   constructor(client) {
     this.client = client;
     this.db = PicoDB.Create();
-    this.apiCache = new NodeCache({ stdTTL: 15*60, checkperiod: 1*60 });
+    this.apiCache = new ApiCache({ stdTTL: 15*60, checkperiod: 1*60 });
     this.id = uuid.v1();
 
     if(this.client) {
@@ -111,13 +111,14 @@ module.exports = class Proxy {
   apiForService(service) {
     let self = this;
     let p = new Promise((resolve, reject) => {
-      let apiBinding = new ApiBinding(service);
-      apiBinding.onConnectionError((connectionErrEvent) => {
-        console.log('Connection Err Event');
-        console.log(connectionErrEvent);
-      });
-
-      apiBinding.bind().then((api) => {
+      self.apiCache.get(service._id).then((api) => {
+        if(api) {
+          resolve(api);
+        } else {
+          let apiBinding = new ApiBinding(service);
+          return apiBinding.bind();
+        }
+      }).then((api) => {
         api.on(api.responseTimeEventKey, (responseTimeMetric) => {
           // Send
           let metric = {
@@ -129,11 +130,46 @@ module.exports = class Proxy {
         });
         return api;
       }).then((api) => {
-        self.apiCache.set(service._id, api);
+        self.apiCache.set(service._id, api).then(() => {
+          console.log('Api Cached');
+        }).catch((err) => {
+          console.log('Failed to cache api');
+          console.log(err);
+        });
+
         resolve(api);
       }).catch((err) => {
         reject(err);
       });
+      // let apiBinding = new ApiBinding(service);
+      // apiBinding.onConnectionError((connectionErrEvent) => {
+      //   console.log('Connection Err Event');
+      //   console.log(connectionErrEvent);
+      // });
+
+      // apiBinding.bind().then((api) => {
+      //   api.on(api.responseTimeEventKey, (responseTimeMetric) => {
+      //     // Send
+      //     let metric = {
+      //       type: api.responseTimeEventKey,
+      //       serviceId: responseTimeMetric.serviceId,
+      //       value: responseTimeMetric.time
+      //     };
+      //     self.sendResponseTimeMetric(metric);
+      //   });
+      //   return api;
+      // }).then((api) => {
+      //   self.apiCache.set(service._id, api).then(() => {
+      //     console.log('Api Cached');
+      //   }).catch((err) => {
+      //     console.log('Failed to cache api');
+      //     console.log(err);
+      //   });
+
+      //   resolve(api);
+      // }).catch((err) => {
+      //   reject(err);
+      // });
     });
     return p;
   }
