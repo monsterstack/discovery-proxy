@@ -144,35 +144,6 @@ module.exports = class Proxy {
       }).catch((err) => {
         reject(err);
       });
-      // let apiBinding = new ApiBinding(service);
-      // apiBinding.onConnectionError((connectionErrEvent) => {
-      //   console.log('Connection Err Event');
-      //   console.log(connectionErrEvent);
-      // });
-
-      // apiBinding.bind().then((api) => {
-      //   api.on(api.responseTimeEventKey, (responseTimeMetric) => {
-      //     // Send
-      //     let metric = {
-      //       type: api.responseTimeEventKey,
-      //       serviceId: responseTimeMetric.serviceId,
-      //       value: responseTimeMetric.time
-      //     };
-      //     self.sendResponseTimeMetric(metric);
-      //   });
-      //   return api;
-      // }).then((api) => {
-      //   self.apiCache.set(service._id, api).then(() => {
-      //     console.log('Api Cached');
-      //   }).catch((err) => {
-      //     console.log('Failed to cache api');
-      //     console.log(err);
-      //   });
-
-      //   resolve(api);
-      // }).catch((err) => {
-      //   reject(err);
-      // });
     });
     return p;
   }
