@@ -45,8 +45,9 @@ module.exports = class Proxy {
       self.findAvailableByType(type).then((services) => {
         let i = services.length;
         if(i > 0) {
+          let randomServiceIndex = Math.floor(Math.random(i));
           /* Should choose random from set - or consider avg. rtime */
-          resolve(services[0]);
+          resolve(services[randomServiceIndex]);
         } else {
           resolve(null);
         }
