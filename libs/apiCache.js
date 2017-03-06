@@ -36,9 +36,7 @@ class ApiCache {
                 let createdTime = obj.created_timestamp;
                 let ttl = obj.ttl;
 
-                let expired = false;
                 if(createdTime + (ttl*1000) < Date.now()) {
-                    expired = true;
 
                     resolve(null);
                     /* Remove entry */
