@@ -6,7 +6,7 @@ class ApiCache {
         this.options = options || {};
         
         if(!options.ttl) {
-            options.ttl = 5*1000;
+            options.ttl = 120; // seconds = 2 min.
         }
 
         this.apiCache = {};
@@ -15,12 +15,12 @@ class ApiCache {
     set(key, obj) {
         let self = this;
         let p = new Promise((resolve, reject) => {
-            self.apiCache[key] = obj;
+            self.apiCache[key] = {
+                obj: obj,
+                created_timestamp: Date.now(),
+                ttl: self.options.ttl
+            };
             
-            setTimeout(() => {
-                delete self.apiCache[key];
-            }, self.options.ttl);
-
             resolve();
         });
 
@@ -32,8 +32,21 @@ class ApiCache {
         let self = this;
         let p = new Promise((resolve, reject) => {
             let obj = self.apiCache[key];
-            if(obj) resolve(obj);
-            else resolve(null);
+            if(obj) {
+                let createdTime = obj.created_timestamp;
+                let ttl = obj.ttl;
+
+                let expired = false;
+                if(createdTime + (ttl*1000) < Date.now()) {
+                    expired = true;
+
+                    resolve(null);
+                    /* Remove entry */
+                    delete self.apiCache[key];
+                } else {
+                    resolve(obj.obj);
+                }
+            }
         });
 
         return p;
