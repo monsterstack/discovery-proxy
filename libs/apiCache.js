@@ -46,6 +46,8 @@ class ApiCache {
                 } else {
                     resolve(obj.obj);
                 }
+            } else {
+                resolve(null);
             }
         });
 
