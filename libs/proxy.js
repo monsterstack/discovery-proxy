@@ -116,6 +116,9 @@ module.exports = class Proxy {
           resolve(api);
         } else {
           let apiBinding = new ApiBinding(service);
+          apiBinding.onConnectionError((connectionErrEvent) => {
+            self.sendOfflineStatus(service._id);
+          });
           return apiBinding.bind();
         }
       }).then((api) => {
