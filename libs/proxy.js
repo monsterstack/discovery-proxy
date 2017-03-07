@@ -267,11 +267,32 @@ module.exports = class Proxy {
       });
     }
 
+    let _sync = (services) => {
+      console.log(`Syncing Services`);
+      this.db.deleteMany({}, (err, numRemoved) => {
+        if(!err) {
+          services.forEach((service) => {
+            service._id = service.id;
+          });
+
+          this.db.insertMany(services, (err, docs) => {
+            if(err) console.log(err);
+            else {
+              console.log(`Synced services`);
+            }
+          });
+        } else {
+          console.log('Failed to clear routing table @_sync');
+        }
+      });
+    }
+
     let handler = {
       added: _added,
       removed: _removed,
       updated: _updated,
-      init: _inited
+      init: _inited,
+      sync: _sync
     }
 
     this.client.query(options.descriptor, options.types, handler);
