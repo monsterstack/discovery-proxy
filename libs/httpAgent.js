@@ -2,6 +2,7 @@
 const needle = require('needle');
 const HttpStatus = require('http-status');
 const EventEmitter = require('events');
+const debug = require('debug')('http-agent');
 
 const handleResponse = (agent, perf, callback) => {
     return (err, res) => {
@@ -16,27 +17,27 @@ const handleResponse = (agent, perf, callback) => {
 
         if (err) {
           if (err.code == 'ENOTFOUND') {
-            console.log('[ERROR] No device found at this address!');
+            debug('[ERROR] No device found at this address!');
             agent.emit('connection.err', err);
           }
 
           if (err.code == 'ECONNREFUSED') {
-            console.log('[ERROR] Connection reset! Please check the IP.');
+            debug('[ERROR] Connection reset! Please check the IP.');
             agent.emit('connection.err', err);
           }
 
           if (err.code == 'ECONNRESET') {
-            console.log('[ERROR] Connection refused! Please check the IP.');
+            debug('[ERROR] Connection refused! Please check the IP.');
             agent.emit('connection.err', err);
           }
 
           if (err.code == 'ETIMEDOUT') {
-            console.log('[ERROR] Connection timedout! Please check the IP.');
+            debug('[ERROR] Connection timedout! Please check the IP.');
             agent.emit('connection.err', err);
           }
 
           if (err.code == 'ESOCKETTIMEDOUT') {
-            console.log('[ERROR] Connection timedout! Please check the IP.');
+            debug('[ERROR] Connection timedout! Please check the IP.');
             agent.emit('connection.err', err);
           }
         }

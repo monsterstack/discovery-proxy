@@ -25,7 +25,6 @@ class Queue {
       let qname = this.channel.split('q://')[1];
       _this.rsmq.createQueue({ qname: qname }, (err, resp) => {
         if (resp) {
-          console.log('queue created');
           _this._send(qname, data).then((response) => {
             resolve(response);
           }).catch((err) => {

@@ -13,7 +13,6 @@ describe('agent-response-intc', () => {
 
         let requestAgent = new RequestAgent();
         requestAgent.addResIntc((res) => {
-            console.log(res.performance);
             performance = res.performance;
         });
 
@@ -35,7 +34,6 @@ describe('agent-response-intc', () => {
         let requestAgent = new RequestAgent();
         let connectionErrorOccured = false;
         requestAgent.onConnectionError((connectionErrEvent) => {
-            console.log(connectionErrEvent);
             connectionErrorOccured = true;
         });
 

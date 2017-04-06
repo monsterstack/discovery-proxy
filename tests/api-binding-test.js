@@ -2,7 +2,7 @@
 
 const assert = require('assert');
 const ApiBinding = require('../libs/apiBinding');
-
+const debug = require('debug')('api-binding');
 /**
  * Discovery model
  * Find service
