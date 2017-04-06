@@ -16,7 +16,7 @@ describe('discovery-proxy', () => {
     let service = {
       id: '1111',
       endpoint: 'http://petstore.swagger.io/v2',
-      schemaRoute: '/swagger.json'
+      schemaRoute: '/swagger.json',
     };
 
     let apiBinding = new ApiBinding(service);
@@ -34,7 +34,7 @@ describe('discovery-proxy', () => {
   it('api request works', (done) => {
     let service = {
       endpoint: 'http://petstore.swagger.io/v2',
-      schemaRoute: '/swagger.json'
+      schemaRoute: '/swagger.json',
     };
     let apiBinding = new ApiBinding(service);
 
@@ -43,18 +43,17 @@ describe('discovery-proxy', () => {
     });
 
     apiBinding.bind().then((service) => {
-      service.api.pet.findPetsByTags({"tags": []}, (response) => {
+      service.api.pet.findPetsByTags({ tags: [] }, (response) => {
         console.log(response);
         done();
       }, (err) => {
         console.log(err.obj);
-        done(new Error("Request Failed"));
+        done(new Error('Request Failed'));
       });  
     }).catch((err) => {
       done(err);
     });
   });
-
 
   after(() => {
 

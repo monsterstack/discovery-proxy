@@ -18,30 +18,29 @@ class ApiBinding extends EventEmitter {
     this.requestAgent = require('superagent-extend');
     this.requestAgent = new ProxyAgent(service._id);
 
-    
-
-    let self = this;
+    let _this = this;
     this.requestAgent.addResIntc((res) => {
-      console.log(self.requestAgent.serviceId);
+      console.log(_this.requestAgent.serviceId);
 
-      if(res && res.performance) {
+      if (res && res.performance) {
         console.log(res.performance);
         console.log(res.url);
         console.log('Emitting performance for request');
         let metric = {
-          serviceId: service._id, 
-          url: res.url, 
-          time: res.performance.requestEnd - res.performance.requestStart 
+          serviceId: service._id,
+          url: res.url,
+          time: res.performance.requestEnd - res.performance.requestStart,
         };
         console.log(metric);
-        self.emit(self.responseTimeEventKey, metric);
+        _this.emit(self.responseTimeEventKey, metric);
       }
     });
   }
 
   onConnectionError(cb) {
     this.requestAgent.onConnectionError((connectionErrEvent) => {
-      if(connectionErrEvent.hasOwnProperty('err') && connectionErrEvent.hasOwnProperty('serviceId')) {
+      if (connectionErrEvent.hasOwnProperty('err')
+        && connectionErrEvent.hasOwnProperty('serviceId')) {
         cb(connectionErrEvent);
       } else {
         throw new Error('Invalid Connection Error Event Received');
@@ -54,20 +53,21 @@ class ApiBinding extends EventEmitter {
   }
 
   bind(schemaOverride) {
-    let self = this;
+    let _this = this;
     let p = new Promise((resolve, reject) => {
       try {
-        let schemaUrl = self.descriptor.endpoint + self.descriptor.schemaRoute;
+        let schemaUrl = _this.descriptor.endpoint + _this.descriptor.schemaRoute;
         let api = new SwaggerNodeClient({
           url: schemaUrl,
-          requestAgent: self.requestAgent,
+          requestAgent: _this.requestAgent,
           success: () => {
-            self.api = api;
-            resolve(self);
+            _this.api = api;
+            resolve(_this);
           },
+
           error: (err) => {
             reject(err);
-          }
+          },
         });
       } catch (error) {
         reject(error);
@@ -77,7 +77,11 @@ class ApiBinding extends EventEmitter {
   }
 
   _emitResponseTime(responseTime) {
-    this.emit(this.responseTimeEventKey, { serviceId: self.service.id, value: responseTime, type: this.responseTimeEventKey});
+    this.emit(this.responseTimeEventKey, {
+      serviceId: this.service.id,
+      value: responseTime,
+      type: this.responseTimeEventKey,
+    });
   }
 }
 

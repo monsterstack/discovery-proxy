@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "checkStyle": "jscs libs --reporter unix",
     "test": "cd tests && mocha *-test.js --reporter nyan"
   },
   "repository": {
