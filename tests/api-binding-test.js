@@ -39,17 +39,15 @@ describe('discovery-proxy', () => {
     let apiBinding = new ApiBinding(service);
 
     apiBinding.on('response.performance', (perf) => {
-      console.log(perf);
+      debug(perf);
     });
 
     apiBinding.bind().then((service) => {
       service.api.pet.findPetsByTags({ tags: [] }, (response) => {
-        console.log(response);
         done();
       }, (err) => {
-        console.log(err.obj);
         done(new Error('Request Failed'));
-      });  
+      });
     }).catch((err) => {
       done(err);
     });

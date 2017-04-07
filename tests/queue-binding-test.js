@@ -23,15 +23,12 @@ describe('discovery-proxy', () => {
     queueBinding.bind().then((queue) => {
       assert(queue, "Binding didn't fail");
 
-      console.log(queue);
       queue.send({msg:"Hello"}).then((resp) => {
-        console.log(resp);
         done();
       }).catch((err) => {
         done(err);
       });
     }).catch((err) => {
-      console.log(err);
       assert(err === undefined, "Error didn't occur");
       done(err);
     });

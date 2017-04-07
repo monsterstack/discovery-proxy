@@ -5,7 +5,7 @@ describe('api-cache-test', (done) => {
     let apiCache = new ApiCache({ttl: 5});
     beforeEach((done) => {
         apiCache.set('ffff', {
-            msg: 'hello'
+            msg: 'hello',
         }).then(() => {
             done();
         }).catch((err) => {
@@ -14,7 +14,7 @@ describe('api-cache-test', (done) => {
     });
 
 
-    it('api cache entry should expire in 5 seconds', (done) => {
+    it('shall expire api cache entry in 5 seconds', (done) => {
         setTimeout(() => {
             apiCache.get('ffff').then((entry) => {
                 if(entry) done(new Error('Expected null due to expired entry'));
@@ -23,7 +23,7 @@ describe('api-cache-test', (done) => {
         }, 6*1000);
     }).timeout(8*1000);
 
-    it('api cache entry should be available at 4 seconds', (done) => {
+    it('shall still have api cache entry at 4 seconds', (done) => {
         setTimeout(() => {
             apiCache.get('ffff').then((entry) => {
                 if(entry) done();
