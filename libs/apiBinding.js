@@ -3,6 +3,7 @@ const debug = require('debug')('apiBinding');
 const fetchSchema = require('fetch-swagger-schema');
 const SwaggerNodeClient = require('swagger-client');
 const Promise = require('promise');
+const Bluebird = require('bluebird');
 
 const ProxyAgent = require('./proxyAgent').ProxyAgent;
 
@@ -61,6 +62,8 @@ class ApiBinding extends EventEmitter {
           url: schemaUrl,
           requestAgent: _this.requestAgent,
           success: () => {
+            // Promisify the apis
+            Bluebird.promisifyAll(api.apis);
             _this.api = api;
             resolve(_this);
           },

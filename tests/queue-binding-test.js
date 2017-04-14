@@ -15,7 +15,7 @@ describe('discovery-proxy', () => {
   it('queue created when binding occurs', (done) => {
     let service = {
       endpoint: 'q://emails',
-      schemaRoute: '/payload.schema'
+      schemaRoute: '/payload.schema',
     };
 
     let queueBinding = new QueueBinding(service);
@@ -23,7 +23,7 @@ describe('discovery-proxy', () => {
     queueBinding.bind().then((queue) => {
       assert(queue, "Binding didn't fail");
 
-      queue.send({msg:"Hello"}).then((resp) => {
+      queue.send({ msg: 'Hello' }).then((resp) => {
         done();
       }).catch((err) => {
         done(err);

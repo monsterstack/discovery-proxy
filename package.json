@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "checkStyle": "jscs libs --reporter unix",
+    "fixStyle": "jscs --fix libs tests",
+    "checkStyle": "jscs libs tests --reporter unix",
     "test": "cd tests && mocha *-test.js --reporter nyan"
   },
   "repository": {
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/zacharyrote/discovery-proxy#readme",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "config": "^1.25.1",
     "debug": "^2.6.0",
     "discovery-client": "https://github.com/zacharyrote/discovery-client#development",
