@@ -63,7 +63,7 @@ class ApiBinding extends EventEmitter {
           requestAgent: _this.requestAgent,
           success: () => {
             // Promisify the apis
-            Bluebird.promisifyAll(api.apis);
+            Bluebird.promisifyAll(api);
             _this.api = api;
             resolve(_this);
           },
