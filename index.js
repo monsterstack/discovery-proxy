@@ -54,12 +54,10 @@ const createErrorHandler = (serviceId, model) => {
 
       if(model) {
         model.deleteService({id:serviceId}).then((service) => {
-          console.log(`Cleaned up Service ${service.id}`);
           setTimeout(() => {
             process.exit();
           }, 500);
         }).error((error) => {
-          console.log(`Service Delete failed ${serviceId}`);
           console.log(error);
           process.exit();
         });
