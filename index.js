@@ -20,7 +20,6 @@ const connect = (options, callback) => {
         proxy.client = client;
       }
 
-      console.log(`Proxy id is ${proxy.id}`);
       callback(null, proxy);
     }
   });
